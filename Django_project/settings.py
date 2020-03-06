@@ -79,10 +79,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dokana',
-        'USER':'dokana_admin',
-        'PASSWORD':'123456789',
-        'HOST':'127.0.0.1',
-        'PORT':'3306'
+        'USER': 'dokana_admin',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '3306'
     }
 }
 
