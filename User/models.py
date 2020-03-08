@@ -2,6 +2,9 @@ from django.db import models
 
 
 # Create your models here.
+from django.db.models import Q
+
+
 class User(models.Model):
     userID = models.IntegerField(primary_key=True)
 
@@ -19,8 +22,8 @@ class Address(models.Model):
         add.address = address.address
         add.save()
 
-    def deleteAddress(self,):
-        pass
+    def deleteAddress(self, userID, address):
+        Address.objects.get(Q(userID=userID) & Q(address=address)).delete()
 
     class Meta:
         unique_together = ('userID', 'address')
