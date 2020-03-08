@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 from django.db.models import Q
 
@@ -27,3 +26,5 @@ class Address(models.Model):
 
     class Meta:
         unique_together = ('userID', 'address')
+=======
+# Create your models here.
