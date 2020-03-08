@@ -1,7 +1,7 @@
 from django.db import models
-
-# Create your models here.
+from django.db.models import Q
 from django import forms
+
 class USER(models.Model):
     userId = models.IntegerField(primary_key=True,auto_created=True)
     userName = models.CharField(max_length=30)
@@ -53,3 +53,24 @@ def selectUserById(_id):
 def deleteUser(_id):
      
     USER.objects.filter(userId=_id).delete()
+
+
+class Address(models.Model):
+    userID = models.ForeignKey(to=USER, on_delete=models.CASCADE)
+    address = models.TextField(max_length=500)
+
+    def __str__(self):
+        return "UserId : " + self.userID + "Address :" + self.address
+
+    def addAddress(self, address):
+        add = Address()
+        add.userID = address.userID
+        add.address = address.address
+        add.save()
+
+    def deleteAddress(self, userID, address):
+        Address.objects.get(Q(userID=userID) & Q(address=address)).delete()
+
+    class Meta:
+        unique_together = ('userID', 'address')
+

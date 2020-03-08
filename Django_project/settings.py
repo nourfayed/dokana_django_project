@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Dokana.apps.DokanaConfig',
+    'Cart.apps.CartConfig',
+    'User.apps.UserConfig'
 ]
 
 MIDDLEWARE = [
