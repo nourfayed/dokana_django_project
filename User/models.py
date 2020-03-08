@@ -53,15 +53,18 @@ class User(models.Model):
 
     # delete user by id
     def deleteUser(self,_id):
-        USER.objects.filter(userId=_id).delete()
+        User.objects.filter(userId=_id).delete()
+
+    def __str__(self):
+        return self.userName
 
 
 class Address(models.Model):
     userID = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    address = models.TextField(max_length=500)
+    address = models.TextField()
 
     def __str__(self):
-        return "UserId : " + self.userID + "Address :" + self.address
+        return "UserId : " + self.userID.userId.__str__() + "Address :" + self.address
 
     def addAddress(self, address):
         add = Address()

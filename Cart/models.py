@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
+from django.utils import timezone
 
 from Dokana.models import Product
 from User.models import User
@@ -19,7 +20,7 @@ class History(models.Model):
     date = models.DateTimeField()
 
     def __str__(self):
-        return 'userId: ' + self.userID + 'productId: ' + self.productID + 'payment: ' + self.paymentMethod
+        return 'userId: ' + self.userID.userId.__str__() + 'productId: ' + self.productID.productID.__str__() + 'payment: ' + self.paymentMethod
 
     def getUserHistory(self, userId):
         return History.objects.get(self.userID == userId)
@@ -46,8 +47,6 @@ class Cart(models.Model):
     productID = models.ForeignKey(to=Product, on_delete=models.CASCADE)
     userID = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
-    class Meta:
-        unique_together = [['productID', 'userID']]
 
     def __str__(self):
         return self.productID
@@ -64,3 +63,6 @@ class Cart(models.Model):
 
     def getUserCart(self, userID):
         return Cart.objects.get(self.userID == userID)
+
+    class Meta:
+        unique_together = ('productID', 'userID')
