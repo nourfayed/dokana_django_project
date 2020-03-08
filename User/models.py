@@ -3,7 +3,7 @@ from django.db.models import Q
 from django import forms
 
 
-class USER(models.Model):
+class User(models.Model):
     userId = models.IntegerField(primary_key=True, auto_created=True)
     userName = models.CharField(max_length=30)
     email = models.EmailField()
@@ -14,7 +14,7 @@ class USER(models.Model):
     # insert data to user just ex
 
     def insertUserData(self):
-        insertedUser = USER(userName="hema", email="sfsfs@ada.com", password=123, phone=1313, userImage="")
+        insertedUser = User(userName="hema", email="sfsfs@ada.com", password=123, phone=1313, userImage="")
         insertedUser.save()
         print(insertedUser)
 
@@ -31,7 +31,7 @@ class USER(models.Model):
     def updateUser(self,_id):
         # myuser.user_id=1
         # update_user(myuser)
-        _updUser = USER.objects.get(userId=_id)
+        _updUser = User.objects.get(userId=_id)
         _updUser.userName = 'ahmed'
         _updUser.email = 'ada@dad'
         _updUser.password = '123'
@@ -41,13 +41,13 @@ class USER(models.Model):
 
     # get all users >>>> The all() method returns a QuerySet of all the objects in the database.
     def selectAllUsers(self):
-        allUsers = USER.objects.all()
+        allUsers = User.objects.all()
         print(allUsers)
         return allUsers
 
     # Retrieving a single user with get() method
     def selectUserById(self,_id):
-        selectUser = USER.objects.get(userId=_id)
+        selectUser = User.objects.get(userId=_id)
         print(selectUser)
         return selectUser
 
@@ -57,7 +57,7 @@ class USER(models.Model):
 
 
 class Address(models.Model):
-    userID = models.ForeignKey(to=USER, on_delete=models.CASCADE)
+    userID = models.ForeignKey(to=User, on_delete=models.CASCADE)
     address = models.TextField(max_length=500)
 
     def __str__(self):

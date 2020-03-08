@@ -1,4 +1,4 @@
-#!/media/mashael/extra/Django_project/venv/bin/python
+#!/media/mashael/extra/dokana_django_project/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
