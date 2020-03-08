@@ -29,6 +29,7 @@ class Reviews(models.Model):
     class Meta:
         unique_together = ('productID', 'userID')
 
+
 class Category(models.Model):
     categoryID = models.IntegerField(primary_key=True, max_length=10)
     categoryName = models.TextField(max_length=20)

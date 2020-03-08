@@ -26,5 +26,4 @@ class Address(models.Model):
 
     class Meta:
         unique_together = ('userID', 'address')
-=======
-# Create your models here.
+

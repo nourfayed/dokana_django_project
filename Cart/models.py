@@ -6,13 +6,13 @@ from django.db import models
 from Dokana.models import Product
 from User.models import User
 
+PAYMENT_TYPES = (
+    ('c', 'cash'),
+    ('v', 'visa')
+)
+
 
 class History(models.Model):
-    PAYMENT_TYPES = (
-        ('c', 'cash'),
-        ('v', 'visa')
-    )
-
     userID = models.ForeignKey(to=User, on_delete=models.CASCADE)
     productID = models.ForeignKey(to=Product, on_delete=models.CASCADE)
     paymentMethod = models.CharField(choices=PAYMENT_TYPES, max_length=50)
@@ -40,8 +40,8 @@ class History(models.Model):
     class Meta:
         unique_together = ('userID', 'productID')
 
-class Cart(models.Model):
 
+class Cart(models.Model):
     paymentMethod = models.CharField(choices=PAYMENT_TYPES, max_length=50)
     productID = models.ForeignKey(to=Product, on_delete=models.CASCADE)
     userID = models.ForeignKey(to=User, on_delete=models.CASCADE)
@@ -55,7 +55,7 @@ class Cart(models.Model):
     def removeFromCart(self, productID):
         Cart.objects.get(self.productID == productID).delete()
 
-    def addProductToCart(self,paymentMethod , productID , userID):
+    def addProductToCart(self, paymentMethod, productID, userID):
         self.paymentMethod = paymentMethod
         self.productID = productID
         self.userID = userID
