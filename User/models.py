@@ -13,8 +13,8 @@ class User(models.Model):
 
     # insert data to user just ex
 
-    def insertUserData(self):
-        insertedUser = User(userName="hema", email="sfsfs@ada.com", password=123, phone=1313, userImage="")
+    def create_user(self,_userName,_email,_password,_image,_phone):
+        insertedUser = User(userName=_userName, email=_email, password=_password,userImage=_image,phone=_phone)
         insertedUser.save()
         print(insertedUser)
 

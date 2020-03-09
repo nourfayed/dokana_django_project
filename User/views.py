@@ -5,8 +5,57 @@ from Cart.models import History
 from Dokana.models import Product
 from User.forms import ChangePasswordForm
 from User.models import User, Address
-
+from .forms import RegisterForm
 import logging
+
+def user_register(request):
+    # if this is a POST request we need to process the form data
+    template = 'user/register.html'
+
+
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = RegisterForm(request.POST)
+        print("sssss"+form.data.get('username'))
+
+        # check whether it's valid:
+        if form.is_valid():
+            if User.objects.filter(userName=form.cleaned_data['username']).exists():
+                return render(request, template, {
+                    'form': form,
+                    'error_message': 'Username already exists.'
+                })
+            elif User.objects.filter(email=form.cleaned_data['email']).exists():
+                return render(request, template, {
+                    'form': form,
+                    'error_message': 'Email already exists.'
+                })
+            elif form.cleaned_data['password'] != form.cleaned_data['password_repeat']:
+                return render(request, template, {
+                    'form': form,
+                    'error_message': 'Passwords do not match.'
+                })
+            else:
+                # Create the user:
+                user = User.objects.create_user(
+                    form.data.get('username'),
+                    form.data.get('email'),
+                    form.data.get('password'),
+                    form.data.get('Image'),
+                    form.data.get('phone_number')
+                )
+                # user.first_name = form.cleaned_data['first_name']
+                # user.last_name = form.cleaned_data['last_name']
+                # user.phone_number = form.cleaned_data['phone_number']
+                user.save()
+               
+                 
+
+   # No post data availabe, let's just show the page.
+    else:
+        form = RegisterForm()
+
+    return render(request, template, {'form': form})
 
 
 def profile(request, pk):
