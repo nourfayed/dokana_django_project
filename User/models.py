@@ -7,7 +7,7 @@ class User(models.Model):
     userId = models.IntegerField(primary_key=True, auto_created=True)
     userName = models.CharField(max_length=30)
     email = models.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    password = models.CharField(max_length=30)
     phone = models.IntegerField()
     userImage = models.ImageField(upload_to='user/')
 
@@ -53,15 +53,20 @@ class User(models.Model):
 
     # delete user by id
     def deleteUser(self,_id):
-        USER.objects.filter(userId=_id).delete()
+        User.objects.filter(userId=_id).delete()
+
+
+    def __str__(self):
+        return self.userName
 
 
 class Address(models.Model):
     userID = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    address = models.TextField(max_length=500)
+    addressID = models.AutoField(primary_key=True)
+    address = models.CharField(max_length=30)
 
     def __str__(self):
-        return "UserId : " + self.userID + "Address :" + self.address
+        return "UserId : " + self.userID.userId.__str__() + "Address :" + self.address
 
     def addAddress(self, address):
         add = Address()
@@ -71,6 +76,3 @@ class Address(models.Model):
 
     def deleteAddress(self, userID, address):
         Address.objects.get(Q(userID=userID) & Q(address=address)).delete()
-
-    class Meta:
-        unique_together = ('userID', 'address')

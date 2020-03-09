@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History of {{ user }}</title>
+</head>
+<body>
+<div>
+    <h2> User Name : {{ user }} </h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Product Name</th>
+            <th> Payment Method</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for h in history %}
+            <tr>
+                <td> {{ h.data.productID }}</td>
+                <td> {% if h.pay == "v" %}Visa
+                    {% else %} Cash
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
