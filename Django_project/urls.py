@@ -18,8 +18,7 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path ,include
 
-
-from dokana import settings
+from Django_project import settings
 
 urlpatterns = [
     path('products/', include('products.urls')),
