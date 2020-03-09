@@ -1,4 +1,4 @@
-"""Django_project URL Configuration
+"""dokana URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -13,7 +13,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls import include
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path ,include
@@ -24,6 +23,5 @@ from dokana import settings
 urlpatterns = [
     path('products/', include('products.urls')),
     path('admin/', admin.site.urls),
-    path('profile/', include('User.urls'))
-
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
