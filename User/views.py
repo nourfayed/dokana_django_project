@@ -2,11 +2,13 @@ from django.shortcuts import render
 
 # Create your views here.
 from Cart.models import History
-from Dokana.models import Product
+
 from User.forms import ChangePasswordForm
 from User.models import User, Address
 
 import logging
+
+from products.models import Products
 
 
 def profile(request, pk):
@@ -22,7 +24,7 @@ def history(request, pk):
     user_history = History.objects.filter(userID=pk)
     products = []
     for h in user_history:
-        p = Product.objects.get(productID=h.productID.productID)
+        p = Products.objects.get(productID=h.productID.productID)
         product = {
             'data': p,
             'pay': h.paymentMethod

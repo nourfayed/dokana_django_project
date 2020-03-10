@@ -31,16 +31,17 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'Dokana.apps.DokanaConfig',
+    'Cart.apps.CartConfig',
+    'User.apps.UserConfig',
     'products.apps.ProductsConfig',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'Dokana.apps.DokanaConfig',
-    'Cart.apps.CartConfig',
-    'User.apps.UserConfig'
+    'django.contrib.staticfiles'
 ]
 
 MIDDLEWARE = [
@@ -82,8 +83,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dokana',
-        'USER': 'dokana_admin',
-        'PASSWORD': '123456789',
+        'USER': 'root',
+        'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '3306'
     }

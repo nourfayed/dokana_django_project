@@ -4,8 +4,9 @@ from django.db import models
 from django.db import models
 from django.utils import timezone
 
-from Dokana.models import Product
+
 from User.models import User
+from products.models import Products
 
 PAYMENT_TYPES = (
     ('c', 'cash'),
@@ -15,7 +16,7 @@ PAYMENT_TYPES = (
 
 class History(models.Model):
     userID = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    productID = models.ForeignKey(to=Product, on_delete=models.CASCADE)
+    productID = models.ForeignKey(to=Products, on_delete=models.CASCADE)
     paymentMethod = models.CharField(choices=PAYMENT_TYPES, max_length=50)
     date = models.DateTimeField()
 
@@ -43,8 +44,9 @@ class History(models.Model):
 
 
 class Cart(models.Model):
-    paymentMethod = models.CharField(choices=PAYMENT_TYPES, max_length=50)
-    productID = models.ForeignKey(to=Product, on_delete=models.CASCADE)
+    paymentMethod = models.CharField(choices=
+                                     PAYMENT_TYPES, max_length=50)
+    productID = models.ForeignKey(to=Products, on_delete=models.CASCADE)
     userID = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
 
