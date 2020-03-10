@@ -1,5 +1,6 @@
-from django.shortcuts import render
-
+from django.shortcuts import render,redirect
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
+from django.contrib.auth import login,authenticate
 # Create your views here.
 from Cart.models import History
 from Dokana.models import Product
@@ -54,8 +55,34 @@ def user_register(request):
    # No post data availabe, let's just show the page.
     else:
         form = RegisterForm()
-
     return render(request, template, {'form': form})
+
+
+# login authentication
+
+def user_login(request):
+    if request.method == 'POST':
+         
+        # username = request.POST['username']
+        # password = request.POST['password'] 
+        username = request.POST.get('userName','')
+        password = request.POST.get('password','')
+        # Check username and password combination if correct
+        user = authenticate(username=username, password=password)
+        # user_name=User.objects.get(userName=username)
+        # user_password=User.objects.get(password=password)
+        # if (user_name==)
+         
+        if user:
+            # Save session as cookie to login the user
+            login(request, user)
+            # Success, now let's login the user.
+            return render(request, 'user/profile.html')
+        else:
+            #   throw an error to the screen.
+            return render(request, 'user/login.html', {'error_message': 'Incorrect username and / or password.'})
+    else:
+        return render(request, 'user/login.html')
 
 
 def profile(request, pk):

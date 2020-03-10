@@ -1,11 +1,35 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Log In{% endblock title %}
 {% block content %}
-<h2>Log In</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Log In</button>
-</form>
-{% endblock content %}
+    <div class="container">
+        <form action="/Login/" method="post">
+            {% csrf_token %}
+            <div class="col">
+                <div class="panel">
+                    <div class="heading">Login</div>
+                    <div class="panel-body">
+                        {% if error_message %}
+                            <p class="danger">{{ error_message }}</p>
+                        {% endif %}
+                        <div class="form">
+                            <label for="username" class="col">Username:</label>
+                            <div class="col">
+                                <input name="username" value="" type="text" />
+                            </div>
+                        </div>
+                        <div class="form">
+                            <label for="password">Password:</label>
+                            <div class="col">
+                                <input name="password" type="password" />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <input name="login" type="submit" value="Login" /> 
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
