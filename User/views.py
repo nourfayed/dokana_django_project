@@ -6,7 +6,7 @@ from Cart.models import History
 from Dokana.models import Product
 from User.forms import ChangePasswordForm
 from User.models import User, Address
-from .forms import RegisterForm
+from .forms import RegisterForm,ImageUploadForm
 import logging
 
 def user_register(request):
@@ -17,28 +17,34 @@ def user_register(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = RegisterForm(request.POST)
+        photo_upload_form = ImageUploadForm(request.POST, request.FILES)
         print("sssss"+form.data.get('username'))
 
+    #     context = {
+    #     "form": form,
+    #     "photo_upload_form": photo_upload_form
+    # }
         # check whether it's valid:
-        if form.is_valid():
-            if User.objects.filter(userName=form.cleaned_data['username']).exists():
+        if form:
+            if User.objects.filter(userName=form.data.get('username')):
                 return render(request, template, {
                     'form': form,
                     'error_message': 'Username already exists.'
                 })
-            elif User.objects.filter(email=form.cleaned_data['email']).exists():
+            elif User.objects.filter(email=form.data.get('email')):
                 return render(request, template, {
                     'form': form,
                     'error_message': 'Email already exists.'
                 })
-            elif form.cleaned_data['password'] != form.cleaned_data['password_repeat']:
+            elif form.data.get('password')!= form.data.get('password_repeat'):
                 return render(request, template, {
                     'form': form,
                     'error_message': 'Passwords do not match.'
                 })
+             
             else:
                 # Create the user:
-                user = User.objects.create_user(
+                user = User.create_user(
                     form.data.get('username'),
                     form.data.get('email'),
                     form.data.get('password'),
@@ -48,7 +54,7 @@ def user_register(request):
                 # user.first_name = form.cleaned_data['first_name']
                 # user.last_name = form.cleaned_data['last_name']
                 # user.phone_number = form.cleaned_data['phone_number']
-                user.save()
+                #user.save()
                
                  
 
@@ -63,21 +69,22 @@ def user_register(request):
 def user_login(request):
     if request.method == 'POST':
          
-        # username = request.POST['username']
+        # username = request.POST['userName']
         # password = request.POST['password'] 
-        username = request.POST.get('userName','')
-        password = request.POST.get('password','')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         # Check username and password combination if correct
-        user = authenticate(username=username, password=password)
+        user=User.objects.get(userName=username)
+
         # user_name=User.objects.get(userName=username)
         # user_password=User.objects.get(password=password)
         # if (user_name==)
-         
-        if user:
+        if user is not None:
             # Save session as cookie to login the user
-            login(request, user)
+            if user.password == password:
+                # login(request, user)
             # Success, now let's login the user.
-            return render(request, 'user/profile.html')
+                return render(request, 'user/profile.html')
         else:
             #   throw an error to the screen.
             return render(request, 'user/login.html', {'error_message': 'Incorrect username and / or password.'})

@@ -41,11 +41,14 @@
                     </div>
 
                     <div class="form">
-                        <label for="{{ form.Image.id_for_label }}" class="col-md">Image</label>
-                        <img src="{{User.userImage.url}"}>
-                            <div class="col">
-                                {{ form.Image }}
-                            </div>
+                        <!-- <input id="id_image" type="file" class="my-2" name="image">
+                        <label for="{{ form.Image.id_for_label }}" class="col-md">Image</label> -->
+                         
+                            <table>
+                                 {{ form.Image }}
+                            </table>
+                                
+                            
                         </div>
                         <div class=" form">
                         <label for="{{ form.phone_number.id_for_label }}" class="col">Phone Number:</label>
