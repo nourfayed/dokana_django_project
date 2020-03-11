@@ -4,7 +4,7 @@ from django import forms
 
 
 class User(models.Model):
-    userId = models.IntegerField(primary_key=True, auto_created=True)
+    userId = models.AutoField(primary_key=True, auto_created=True)
     userName = models.CharField(max_length=30)
     email = models.EmailField()
     password = models.CharField(max_length=30)
@@ -13,8 +13,8 @@ class User(models.Model):
 
     # insert data to user just ex
 
-    def insertUserData(self):
-        insertedUser = User(userName="hema", email="sfsfs@ada.com", password=123, phone=1313, userImage="")
+    def create_user(_userName,_email,_password,_image,_phone):
+        insertedUser = User(userName=_userName, email=_email, password=_password,userImage=_image,phone=_phone)
         insertedUser.save()
         print(insertedUser)
 
