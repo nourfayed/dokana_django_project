@@ -31,6 +31,8 @@ def search(request):
     if max_rate == '':
         max_rate = '5'
 
+    print(category+" "+min_price+" "+max_price+" "+min_rate+" "+max_price)
+
     search_filter = {
         'name': productName,
         'cat': category,
@@ -42,13 +44,21 @@ def search(request):
 
     categories = Category.objects.all()
     cats = tuple(categories)
-    final_cat = ''
+    if category=="All":
+        final_cat="<option value=" + category + " selected>" + category + "</option>"
+    else:
+        final_cat="<option value=" + category + ">" + category + "</option>"
+
     for cat in cats:
         final_cat = final_cat + "<optgroup label=" + cat.categoryName + ">"
         subCat = tuple(SubCategory.objects.filter(category=cat))
         for s in subCat:
+            if s.subCatName == category:
+                final_cat = final_cat + "<option value=" + s.subCatName + " selected>" + s.subCatName + "</option>"
+            else:
+                final_cat = final_cat + "<option value=" + s.subCatName + ">" + s.subCatName + "</option>"
+
             # final_cat.append(s.subCatName)
-            final_cat = final_cat + "<option value=" + s.subCatName + ">" + s.subCatName + "</option>"
         final_cat = final_cat + "</optgroup>"
         # for s in subCat:
         #     final_cat.append(s.subCatName)

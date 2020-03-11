@@ -49,45 +49,46 @@
 </div>
 </nav>
 
-
-<div class="row row-cols-1 row-cols-md-3 pt-5 mt-5">
-  <div class="col mb-4">
-    <div class="card h-100">
-      <img src="https://assets.mspimages.in/wp-content/uploads/2019/03/Redmi-7-2-696x435.jpg" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col mb-4">
-    <div class="card h-100">
-      <img src="https://5.imimg.com/data5/JV/YU/MY-3760642/lenovo-y720-80vr00esin-gaming-notebooks-500x500.png" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a short card.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col mb-4">
-    <div class="card h-100">
-      <img src="https://smhttp-ssl-73217.nexcesscdn.net/pub/media/catalog/product/cache/image/beff4985b56e3afdbeabfc89641a4582/t/v/tv506--1.gif" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col mb-4">
-    <div class="card h-100">
-      <img src="https://www.scandinaviastandard.com/wp-content/uploads/2019/10/The-Ultimate-Guide-to-Sustainably-Caring-For-Your-Clothes-_-Scandinavia-Standard-2-624x390.jpg" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
-    </div>
-  </div>
-</div>
+{% block content%}{% endblock  %}
+{##}
+{#<div class="row row-cols-1 row-cols-md-3 pt-5 mt-5">#}
+{#  <div class="col mb-4">#}
+{#    <div class="card h-100">#}
+{#      <img src="https://assets.mspimages.in/wp-content/uploads/2019/03/Redmi-7-2-696x435.jpg" class="card-img-top" alt="...">#}
+{#      <div class="card-body">#}
+{#        <h5 class="card-title">Card title</h5>#}
+{#        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#  <div class="col mb-4">#}
+{#    <div class="card h-100">#}
+{#      <img src="https://5.imimg.com/data5/JV/YU/MY-3760642/lenovo-y720-80vr00esin-gaming-notebooks-500x500.png" class="card-img-top" alt="...">#}
+{#      <div class="card-body">#}
+{#        <h5 class="card-title">Card title</h5>#}
+{#        <p class="card-text">This is a short card.</p>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#  <div class="col mb-4">#}
+{#    <div class="card h-100">#}
+{#      <img src="https://smhttp-ssl-73217.nexcesscdn.net/pub/media/catalog/product/cache/image/beff4985b56e3afdbeabfc89641a4582/t/v/tv506--1.gif" class="card-img-top" alt="...">#}
+{#      <div class="card-body">#}
+{#        <h5 class="card-title">Card title</h5>#}
+{#        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#  <div class="col mb-4">#}
+{#    <div class="card h-100">#}
+{#      <img src="https://www.scandinaviastandard.com/wp-content/uploads/2019/10/The-Ultimate-Guide-to-Sustainably-Caring-For-Your-Clothes-_-Scandinavia-Standard-2-624x390.jpg" class="card-img-top" alt="...">#}
+{#      <div class="card-body">#}
+{#        <h5 class="card-title">Card title</h5>#}
+{#        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
 
 
 
@@ -226,6 +227,8 @@
         bottom: 0;
         width: 100%;
     }
+
+    {% block style %}{% endblock %}
     </style>
 <!-- Footer -->
 
@@ -233,7 +236,7 @@
 
 
 
-
+{% block myJavascript %}{% endblock %}
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
