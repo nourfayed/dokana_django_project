@@ -3,7 +3,6 @@ from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth import login,authenticate
 # Create your views here.
 from Cart.models import History
-from Dokana.models import Product
 from User.forms import ChangePasswordForm
 from User.models import User, Address
 from .forms import RegisterForm,ImageUploadForm
