@@ -23,70 +23,96 @@
     <title>Hello, world!</title>
 </head>
 <body>
-<form method="post" action="">
-    {% csrf_token %}
-    <div class="input-append">
-        {% if filter.name %}
-            <input type="text" class="search-query" value="{{ filter.name }}" name ="product" id="product">
-        {% else %}
-            <input type="text" class="search-query" placeholder="Search" name ="product" id="product">
+<div class="search-split">
+    <form method="post" action="">
+        {% csrf_token %}
+        {#    <div class="input-append m-2">#}
+        {#        {% if filter.name %}#}
+        {#            <input type="text" class="search-query col-12" value="{{ filter.name }}" name="product" id="product">#}
+        {#        {% else %}#}
+        {#            <input type="text" class="search-query col-12" placeholder="Search" name="product" id="product">#}
+        {##}
+        {#        {% endif %}#}
+        {#    </div>#}
+        <div class="bg-light col-2 align-items-center justify-content-center">
+            {#        <div class="row align-items-center justify-content-center">#}
+            <div class="pt-3">
+                <div class="form-group ">
+                    {% if filter.name %}
+                        <input type="text" class="search-query col-12" value="{{ filter.name }}" name="product"
+                               id="product">
+                    {% else %}
+                        <input type="text" class="search-query col-12" placeholder="Search" name="product" id="product">
 
-        {% endif %}
-    </div>
-    <div class="container-fluid bg-light ">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-md-2 pt-3">
+                    {% endif %}
+                </div>
+            </div>
+            <div class=" row2">
+                <button type="submit" class="btn btn-primary btn-block">Search</button>
+            </div>
+
+            <div class="pt-3">
                 <div class="form-group ">
                     <label>Category</label>
                     <select id="category" class="form-control" name="category">
                         <option selected>{{ filter.cat }}</option>
-                        {% for c in cats %}
-                            <option>{{ c.categoryName }}</option>
-                        {% endfor %}
+                        {% autoescape off %}
+                            {{ cats }}
+                        {% endautoescape %}
                     </select>
                 </div>
             </div>
-            <div class="col-md-2 pt-3">
+            <div class=" pt-3">
                 <div class="form-group">
-                    <label>Min Price</label>
-                    <input type="number" min="0" max="100000" placeholder="Min price" class="form-control" step="10"
-                           value="{{ filter.min_p }}" id="min_price" name="min_price"
-                           data-suffix="$">
+                    <label>Min Price : </label>
+                    <span style="font-weight:bold;color:blue" id="min_price_s"
+                          name="min_price_s">{{ filter.min_p }}</span>
+                    <input type="range" min="0" max="100000" value="{{ filter.min_p }}" class="slider" id="min_price"
+                           name="min_price" step="10">
+                    {#                    <input type="range" min="0" max="100000" placeholder="Min price" class="form-control" step="10"#}
+                    {#                           value="{{ filter.min_p }}" id="min_price" name="min_price"#}
+                    {#                           data-suffix="$">#}
                 </div>
             </div>
-            <div class="col-md-2 pt-3">
+            <div class=" pt-3">
                 <div class="form-group">
-                    <label>Max Price</label>
-                    <input type="number" min="0" max="100000" placeholder="Max price" class="form-control" step="10"
-                           value="{{ filter.max_p }}" id="max_price" name="max_price"
-                           data-suffix="$">
+                    <label>Max Price : </label>
+                    <span style="font-weight:bold;color:blue" id="max_price_s"
+                          name="max_price_s">{{ filter.max_p }}</span>
+                    <input type="range" min="0" max="100000" class="slider" step="10"
+                           value="{{ filter.max_p }}" id="max_price" name="max_price">
                 </div>
             </div>
-            <div class="col-md-2 pt-3">
+            <div class=" pt-3">
                 <div class="form-group">
-                    <label>Min Rate</label>
-                    <input type="number" min="1" max="5" data-decimals="1" value="{{ filter.min_r}}" placeholder="Max Rate"
-                           class="form-control" step="0.5" id="min_rate" name="min_rate">
+                    <label>Min Rate : </label>
+                    <span style="font-weight:bold;color:blue" id="min_rate_s"
+                          name="max_price_s">{{ filter.min_r }}</span>
+                    <input type="range" min="1" max="5" data-decimals="1" value="{{ filter.min_r }}"
+                           placeholder="Min Rate"
+                           class="slider" step="0.5" id="min_rate" name="min_rate">
                 </div>
             </div>
-            <div class="col-md-2 pt-3">
+            <div class=" pt-3">
                 <div class="form-group">
                     <label>Max Rate</label>
-                    <input type="number" min="1" max="5" data-decimals="1" value="{{ filter.max_r }}" placeholder="Min Rate"
-                           class="form-control" step="0.5" id="max_rate" name="max_rate">
+                    <span style="font-weight:bold;color:blue" id="max_rate_s"
+                          name="max_price_s">{{ filter.max_r }}</span>
+                    <input type="range" min="1" max="5" data-decimals="1" value="{{ filter.max_r }}"
+                           placeholder="Min Rate"
+                           class="slider" step="0.5" id="max_rate" name="max_rate">
                 </div>
             </div>
-            <div class="col-md-2 row2">
-                <button type="submit" class="btn btn-primary btn-block">Search</button>
-            </div>
+            {#        </div>#}
         </div>
-    </div>
-</form>
+    </form>
+</div>
+<div class="result-split">
+    {% for product in products %}
+        <label>{{ product.productName }}</label>
+    {% endfor %}
 
-{% for product in products %}
-<label>{{ product.productName }}</label>
-{% endfor %}
-
+</div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -99,5 +125,93 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.js"></script>
+
+<script>
+    var min_price_slider = document.getElementById("min_price");
+    var min_price_output = document.getElementById("min_price_s");
+    var max_price_slider = document.getElementById("max_price");
+    var max_price_output = document.getElementById("max_price_s");
+    var min_rate_slider = document.getElementById("min_rate");
+    var min_rate_output = document.getElementById("min_rate_s");
+    var max_rate_slider = document.getElementById("max_rate");
+    var max_rate_output = document.getElementById("max_rate_s");
+
+    max_price_output.innerHTML = max_price_slider.value; // Display the default slider value
+    min_price_output.innerHTML = min_price_slider.value; // Display the default slider value
+    min_rate_output.innerHTML = min_rate_slider.value; // Display the default slider value
+    max_rate_output.innerHTML = max_rate_slider.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    min_price_slider.oninput = function () {
+        min_price_output.innerHTML = this.value;
+    }
+    max_price_slider.oninput = function () {
+        max_price_output.innerHTML = this.value;
+    }
+
+    min_rate_slider.oninput = function () {
+        min_rate_output.innerHTML = this.value;
+    }
+
+
+    max_rate_slider.oninput = function () {
+        max_rate_output.innerHTML = this.value;
+    }
+</script>
+<style>
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 10px;
+        border-radius: 5px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: blue;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: blue;
+        cursor: pointer;
+    }
+
+    .search-split {
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .result-split {
+        height: 100%;
+        width: 80%;
+        position: fixed;
+        z-index: 1;
+        right: 0;
+        top: 0;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+</style>
+
 </body>
 </html>

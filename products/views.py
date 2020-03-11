@@ -1,6 +1,6 @@
 from django.db.models import Q
 from django.shortcuts import render
-from .models import Category, Products
+from .models import Category, Products, SubCategory
 
 
 # Create your views here.
@@ -41,21 +41,41 @@ def search(request):
     }
 
     categories = Category.objects.all()
+    cats = tuple(categories)
+    final_cat = ''
+    for cat in cats:
+        final_cat = final_cat + "<optgroup label=" + cat.categoryName + ">"
+        subCat = tuple(SubCategory.objects.filter(category=cat))
+        for s in subCat:
+            # final_cat.append(s.subCatName)
+            final_cat = final_cat + "<option value=" + s.subCatName + ">" + s.subCatName + "</option>"
+        final_cat = final_cat + "</optgroup>"
+        # for s in subCat:
+        #     final_cat.append(s.subCatName)
+        # # print(subCat)
 
-    products = Products.objects.filter(Q(productName__contains=productName))
+    print('final::::::::::' + final_cat)
+    if category == 'All':
+        products = Products.objects.filter(Q(productName__contains=productName))
+    else:
+        cat_id = SubCategory.objects.get(subCatName=category)
+        print(cat_id)
+        # products = Products.objects.filter(Q(productName__contains=productName) and Q(category=cat_id))
+        products = Products.objects.filter(Q(productName__contains=productName) & Q(category=cat_id))
+        print(products.__str__())
+
     if products:
         products = filter(lambda x: price__less_than(max_price, x), products)
         products = filter(lambda x: price__more_than(min_price, x), products)
         products = filter(lambda x: rate__less_than(max_rate, x), products)
         products = filter(lambda x: rate__more_than(min_rate, x), products)
-        products = list(products)
-        print(len(products))
-
+        products = tuple(products)
+        # products = list(products)
     else:
         print('Nothing')
 
     return render(request, 'products/search_result.html',
-                  {'filter': search_filter, 'cats': categories, products: 'products'})
+                  {'filter': search_filter, 'cats': final_cat, 'products': products})
 
 
 def price__less_than(max, product):
