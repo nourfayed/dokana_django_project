@@ -50,7 +50,7 @@ class Cart(models.Model):
 
 
     def __str__(self):
-        return self.productID
+        return str(self.productID)
 
     def removeFromCart(self, productID):
         Cart.objects.get(self.productID == productID).delete()

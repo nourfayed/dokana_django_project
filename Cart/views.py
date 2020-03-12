@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from Cart.models import Cart, Product, User
+from Cart.models import Cart, Products, User
 
 
 def AddToCart(request):
@@ -9,7 +9,7 @@ def AddToCart(request):
     print(text1)
     text2 = request.POST.get('text2')
     print(text2)
-    cart = Cart(productID=Product.objects.get(productID=text1),userID=User.objects.get(userID=text2))
-    cart.save()
-    test = tuple(Cart.objects.filter(userID=10))
+    # cart = Cart(productID=Products.objects.get(productID=text1),userID=User.objects.get(userId=text2))
+    # cart.save()
+    test = tuple(Cart.objects.filter(userID=1))
     return render(request, 'Cart.html' ,{'Cart':test})

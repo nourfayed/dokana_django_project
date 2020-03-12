@@ -3,8 +3,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, TemplateView
 
 from Cart.models import Cart
-from .models import Category
-
+from products.models import Category
 
 
 class HomePageView(ListView):
