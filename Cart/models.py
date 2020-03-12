@@ -18,6 +18,7 @@ class History(models.Model):
     productID = models.ForeignKey(to=Products, on_delete=models.CASCADE)
     paymentMethod = models.CharField(choices=PAYMENT_TYPES, max_length=50)
     date = models.DateTimeField()
+    count = models.IntegerField(default=1)
 
     def __str__(self):
         return 'userId: ' + self.userID.userId.__str__() + 'productId: ' + self.productID.productID.__str__() + 'payment: ' + self.paymentMethod
@@ -39,7 +40,7 @@ class History(models.Model):
         History.objects.get(self.userID == userID).delete()
 
     class Meta:
-        unique_together = ('userID', 'productID')
+        unique_together = ('userID', 'productID','date')
 
 
 class Cart(models.Model):
@@ -49,7 +50,7 @@ class Cart(models.Model):
 
 
     def __str__(self):
-        return self.productID
+        return str(self.productID)
 
     def removeFromCart(self, productID):
         Cart.objects.get(self.productID == productID).delete()
