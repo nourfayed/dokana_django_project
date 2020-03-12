@@ -104,16 +104,16 @@ def profile(request, pk):
 def history(request, pk):
     user_profile = User.objects.get(userId=pk)
     user_history = History.objects.filter(userID=pk)
-    products = []
+    history = []
     for h in user_history:
         p = Products.objects.get(productID=h.productID.productID)
         product = {
-            'data': p,
-            'pay': h.paymentMethod
+            'product_data': p,
+            'data': h
         }
-        products.append(product)
+        history.append(product)
 
-    return render(request, 'user/history.html', {'user': user_profile.userName, 'history': products})
+    return render(request, 'user/history.html', {'user': user_profile.userName, 'history': history})
 
 
 def changePass(request, pk):
