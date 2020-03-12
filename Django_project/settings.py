@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Dokana.apps.DokanaConfig',
+    'Cart.apps.CartConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -79,7 +81,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dokana',
-        'USER': 'dokana_admin',
+        'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '3306'
