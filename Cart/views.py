@@ -1,3 +1,15 @@
 from django.shortcuts import render
 
-# Create your views here.
+from Cart.models import Cart, Product, User
+
+
+def AddToCart(request):
+    print(request.POST)
+    text1 = request.POST.get('text1')
+    print(text1)
+    text2 = request.POST.get('text2')
+    print(text2)
+    cart = Cart(productID=Product.objects.get(productID=text1),userID=User.objects.get(userID=text2))
+    cart.save()
+    test = tuple(Cart.objects.filter(userID=10))
+    return render(request, 'Cart.html' ,{'Cart':test})
