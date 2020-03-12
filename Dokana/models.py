@@ -2,11 +2,11 @@ from django.db import models
 
 # Create your models here.
 class Category(models.Model):
-    categoryID = models.IntegerField(primary_key=True, max_length=10)
+    categoryID = models.IntegerField(primary_key=True)
     categoryName = models.TextField(max_length=20)
 
     def __str__(self):
-        return self.categoryID
+        return self.categoryName
 
     def addCategory(self, categoryID, categoryName):
         self.categoryID = categoryID
