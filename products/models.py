@@ -29,16 +29,16 @@ class Products(models.Model):
     productID = models.IntegerField(primary_key=True)
     productName = models.CharField(max_length=200)
     productDetails = models.CharField(max_length=500)
-    productImg = models.ImageField(blank=True, null=True)  # l soooraaa  yaaaaa
+    productImg = models.ImageField(blank=True, null=True)
     categoryID = models.ForeignKey(Category, on_delete=models.CASCADE)
     productModel = models.CharField(max_length=200)
     productAverageRating = models.IntegerField(default=0)
     productCount = models.IntegerField(default=0)
     productPrice = models.IntegerField(default=0)
 
-    # product state ???
+    # product state ??? product sub-category ??
 
-    def deceaseCount(current_id):
+    def deceaseCount(self, current_id):
         product = Products.objects.get(id=current_id)
         product.productCount -= 1
         product.save()
@@ -52,10 +52,9 @@ class Products(models.Model):
                 matchedProducts.append(product)
         return matchedProducts
 
-    def getAllProducts( self ):
+    def getAllProducts(self):
         products = Products.objects.all()
         return products
-
 
     # def deleteProduct(self):
     #
