@@ -1,32 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>History of {{ user }}</title>
-</head>
-<body>
-<div>
-    <h2> User Name : {{ user }} </h2>
-    <table>
-        <thead>
-        <tr>
-            <th>Product Name</th>
-            <th> Payment Method</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for h in history %}
+{% extends "BaseLine.html" %}
+{% block content %}
+    <div class="pt-5 m-5">
+        <div class="text-center">
+            <h1 class="text-primary"> Payment History Report</h1>
+            <h2 class="text-info"> User : {{ user }} </h2>
+        </div>
+        <table class="table table-hover table-bordered">
+            <thead>
             <tr>
-                <td> {{ h.data.productID }}</td>
-                <td> {% if h.pay == "v" %}Visa
+                <th scope="col">Product Image</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Payment Method</th>
+                <th scope="col">Payment Date</th>
+                <th scope="col">Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for h in history %}
+                <tr>
+                    <td> <img src="{{ h.product_data.productImg.url }}" class="rounded" style="width: 100px;height: auto"></td>
+                    <td> {{ h.product_data.productName }}</td>
+                    <td> {% if h.data.paymentMethod == "v" %}Visa
                     {% else %} Cash
                     {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    </td>
+                    <td> {{ h.data.date }}</td>
+                    <td> {{ h.data.count }}</td>
 
-</div>
-</body>
-</html>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}
