@@ -1,6 +1,4 @@
 from django.db import models
-
-# Create your models here.
 from django.db.models import Q
 
 from User.models import User
@@ -11,7 +9,7 @@ class Category(models.Model):
     categoryName = models.TextField(max_length=20)
 
     def __str__(self):
-        return self.categoryName
+        return self.categoryName  # abidoooooooooooooooo
 
     def addCategory(self, categoryID, categoryName):
         self.categoryID = categoryID
@@ -26,54 +24,47 @@ class Category(models.Model):
         Category.save()
 
 
-class SubCategory(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    subCatName = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.subCatName
-
 class Products(models.Model):
     objects = models.Manager()
     productID = models.IntegerField(primary_key=True)
     productName = models.CharField(max_length=200)
     productDetails = models.CharField(max_length=500)
-    productImg = models.ImageField(blank=True, null=True)  # l soooraaa  yaaaaa
-    category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+    productImg = models.ImageField(blank=True, null=True)
+    categoryID = models.ForeignKey(Category, on_delete=models.CASCADE)
     productModel = models.CharField(max_length=200)
-    productAverage_rating = models.IntegerField(default=0)
+    productAverageRating = models.IntegerField(default=0)
     productCount = models.IntegerField(default=0)
     productPrice = models.IntegerField(default=0)
 
-    def __str__(self):
-        return self.productName
+    # product state ??? product sub-category ??
 
+    def deceaseCount(self, current_id):
+        product = Products.objects.get(id=current_id)
+        product.productCount -= 1
+        product.save()
 
-#     def __checkCount__(self):
-#         if self.product_count < 0:
-#             self.product_count=0
-#             # shoof ba2a hanshilo ezai mn l page masalan 
+    def getProductsByCategory(self, category_ID):
+        products = Products.objects.all()
+        matchedProducts = []
+        for product in products:
+            print(product.categoryID.categoryID)
+            if product.categoryID.categoryID == category_ID:
+                matchedProducts.append(product)
+        return matchedProducts
 
-#     def getProductByCategory(self,category_ID):
-#         if category_ID== self.category_ID:
-#             return self
+    def getAllProducts(self):
+        products = Products.objects.all()
+        return products
 
-#     def getAllProducts:
-#         #nshoof 7owar l select daa
-#         pass
-#     def deleteProduct(self,productID):
-#         if self.product_details==productID:
-#             #shoof ba2a han-delete ezai
-#             pass
+    # def deleteProduct(self):
+    #
+    #         pass
 
 
 class Reviews(models.Model):
     productID = models.ForeignKey(to=Products, on_delete=models.CASCADE)
     userID = models.ForeignKey(to=User, on_delete=models.CASCADE)
     review = models.TextField(max_length=1000)
-
-    def __str__(self):
-        return self.productID.product_name
 
     @classmethod
     def addReview(cls, new_review):
