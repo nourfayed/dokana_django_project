@@ -4,28 +4,28 @@
     <div class="container">
         <form action="/Login/" method="post">
             {% csrf_token %}
-            <div class="col">
-                <div class="panel">
-                    <div class="heading">Login</div>
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Login</div>
                     <div class="panel-body">
                         {% if error_message %}
-                            <p class="danger">{{ error_message }}</p>
+                            <p class="bg-danger p-d ml-b">{{ error_message }}</p>
                         {% endif %}
-                        <div class="form">
-                            <label for="username" class="col">Username:</label>
-                            <div class="col">
-                                <input name="username" value="" type="text" />
+                        <div class="form-group clearfix">
+                            <label for="username" class="col-md-4 control-label text-right">Username:</label>
+                            <div class="col-md-6">
+                                <input name="username" value="" type="text" class="form-control"/>
                             </div>
                         </div>
-                        <div class="form">
-                            <label for="password">Password:</label>
-                            <div class="col">
-                                <input name="password" type="password" />
+                        <div class="form-group clearfix">
+                            <label for="password" class="col-md-4 control-label text-right">Password:</label>
+                            <div class="col-md-6">
+                                <input name="password" type="password" class="form-control" />
                             </div>
                         </div>
-                        <div class="col">
-                            <input name="login" type="submit" value="Login" /> 
-                            
+                        <div class="col-md-6 col-md-offset-4">
+                            <input name="login" type="submit" value="Login" class="btn btn-success" /> &nbsp;
+                            <a href="/register">or Register</a>
                         </div>
                     </div>
                 </div>

@@ -73,14 +73,16 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         # Check username and password combination if correct
-        user=User.objects.get(userName=username)
-
+        #if User.objects.filter(userName==username and password==password):
+        user=User.objects.filter(userName=username)
+        passWord=User.objects.filter(password=password)
+        print(user)
         # user_name=User.objects.get(userName=username)
         # user_password=User.objects.get(password=password)
         # if (user_name==)
-        if user is not None:
+        if user and passWord:
             # Save session as cookie to login the user
-            if user.password == password:
+            #if User.objects.filter(password=password):
                 # login(request, user)
             # Success, now let's login the user.
                 return render(request, 'user/profile.html')
