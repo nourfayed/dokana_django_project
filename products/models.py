@@ -23,6 +23,12 @@ class Category(models.Model):
         self.categoryName = newName
         Category.save()
 
+class SubCategory(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subCatName = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.subCatName
 
 class Products(models.Model):
     objects = models.Manager()
@@ -30,7 +36,7 @@ class Products(models.Model):
     productName = models.CharField(max_length=200)
     productDetails = models.CharField(max_length=500)
     productImg = models.ImageField(blank=True, null=True)
-    categoryID = models.ForeignKey(Category, on_delete=models.CASCADE)
+    categoryID = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
     productModel = models.CharField(max_length=200)
     productAverageRating = models.IntegerField(default=0)
     productCount = models.IntegerField(default=0)

@@ -21,7 +21,6 @@ from .views import HomePageView, TestPageView
 from Django_project import settings
 
 urlpatterns = [
-                  path('admin/', admin.site.urls),
                   path('', HomePageView.as_view(), name='home'),
                   path('te/', TestPageView.as_view(), name='te')
 
