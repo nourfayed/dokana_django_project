@@ -18,10 +18,14 @@
             <li class="list-group-item"> Items Left in Stock: {{ product.productCount }} </li>
             <li class="list-group-item">  {{ product.productPrice }} $</li>
         </ul>
-        <div class="card-body">
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-        </div>
+
+        <form method='POST' >
+             {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name= "productID"  value="{{ product.productID }}"/>
+            <input type="submit" value="Review Product"/>
+        </form>
+
     </div>
 {% endblock %}
 </body>

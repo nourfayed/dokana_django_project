@@ -20,20 +20,15 @@
         {% if  latest_products %}
 
             {% for product in latest_products %}
-
-
                 <form method="post" action="productDetails.html">
                     {% csrf_token %}
                     <img src="{{ product.productImg.url }}" class="card-img-top" >
                     <h5 class="card-title">{{ product.productName }}</h5>
-                    <p class="card-text"> {{ product.productPrice }}
-                        content.</p>
-                    <input type="hidden" name= "productID"  value="{{ product.productID }}">
-
+                    <p class="card-text"> {{ product.productPrice }} $ </p>
+                    <input type="hidden" name= "productID"  value="{{ product.productID }}"/>
                     <input type="submit" name="showDetails" value="Show Details"/>
                 </form>
             {% endfor %}
-
 
         {% else %}
 
