@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Product Details</title>
-</head>
-<body>
+{% extends "BaseLine.html" %}
 {% block content %}
-    <div class="card"  align="center" >
+    <div class="mt-5 pt-5"  align="center" >
         <img src="{{ product.productImg.url }}" class="card-img-top" style="width:200px;height:200px;">
         <div class="card-body">
             <h5 class="card-title">{{ product.productName }}</h5>
@@ -28,6 +22,3 @@
 
     </div>
 {% endblock %}
-</body>
-</html>
-
