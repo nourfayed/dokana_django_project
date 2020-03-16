@@ -1,8 +1,8 @@
 {% extends "BaseLine.html" %}
 {% block content %}
     {#<div class="search-split">#}
-    <div class="pt-5">
-        <div class="mb-2 p-2 w-100 ">
+    <div class="row container-fluid mt-5 pt-5">
+        <div class="col-md-3">
             {#        <form method="post" action="">#}
             {#            {% csrf_token %}#}
             {#            <div class="input-append m-2">#}
@@ -16,7 +16,7 @@
             {#            </div>#}
             <form method="post" action="">
                 {% csrf_token %}
-                <div class="bg-light col-2 mt-2 p-3 align-items-center justify-content-center">
+                <div class="bg-light col-12 align-items-center justify-content-center">
                     <div class="row align-items-center justify-content-center">
                         <div class="pt-3">
                             <div class="form-group ">
@@ -89,11 +89,35 @@
             </form>
         </div>
 
-    </div>
-    <div class="result-split">
-        {% for product in products %}
-            <label>{{ product.productName }}</label>
-        {% endfor %}
+        {#        {% for product in products %}#}
+        {#            <label>{{ product.productName }}</label>#}
+        {#        {% endfor %}#}
+        <div class='col-md-9'>
+
+            {% for p in products %}
+
+                <div class="card mb-3 col-md-4 " style="max-width: 940px;">
+                    <div class="row no-gutters">
+                        <div class="col-md-3 row p-1 ml-1">
+                            <img src="{{ p.productImg.url }}"
+                                 class="card-img" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Product name : {{ p.productName }}</h5>
+                                <p class="card-text">product price : {{ p.productPrice }}</p>
+                                <p class="card-text"
+                                   style="width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ p.productDetails }}</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+
+        </div>
 
     </div>
 
