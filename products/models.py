@@ -62,6 +62,9 @@ class Products(models.Model):
         products = Products.objects.all()
         return products
 
+    def __str__(self):
+        return self.productName
+
     # def deleteProduct(self):
     #
     #         pass
