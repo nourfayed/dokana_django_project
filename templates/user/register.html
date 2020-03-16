@@ -4,7 +4,7 @@
 <div class="container">
     <form action="/register/" method="post">
         {% csrf_token %}
-        <div class="col-md-8 col-md-offset-2">
+        <div lass="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Register</div>
                 <div class="panel-body">
@@ -12,49 +12,46 @@
                     <p class="bg-danger p-d ml-b">{{ error_message }}</p>
                     {% endif %}
 
-                    <div>
-                        <label for="{{ form.username.id_for_label }}"
-                            class="col-md-4 control-label text-right">Username<span class="text-red">*</span>:</label>
+                    <div class="form-group clearfix">
+                        <label for="{{ form.username.id_for_label }}" class="col-md-4 control-label text-right">Username<span
+                                class="text-red">*</span>:</label>
                         <div class="col-md-6">
                             {{ form.username}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label for="{{ form.email.id_for_label }}" class="col-md-4 control-label text-right">Email<span class="text-red">*</span>:</label>
+                        <label for="{{ form.email.id_for_label }}" class="col-md-4 control-label text-right">Email<span
+                                class="text-red">*</span>:</label>
                         <div class="col-md-6">
                             {{ form.email }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label for="{{ form.password.id_for_label }}"
-                            class="col-md-4 control-label text-right">Password<span class="text-red">*</span>:</label>
+                        <label for="{{ form.password.id_for_label }}" class="col-md-4 control-label text-right">Password<span
+                                class="text-red">*</span>:</label>
                         <div class="col-md-6">
                             {{ form.password }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label for="{{ form.password_repeat.id_for_label }}"
-                            class="col-md-4 control-label text-right">Confirm password:</label>
+                        <label for="{{ form.password_repeat.id_for_label }}" class="col-md-4 control-label text-right">Confirm password:</label>
                         <div class="col-md-6">
                             {{ form.password_repeat }}
                         </div>
                     </div>
 
                     <div class="form-group clearfix">
-                        <!-- <input id="id_image" type="file" class="my-2" name="image"> -->
-
-
-                        <table>
-                            <label for="{{ form.Image.id_for_label }}"
-                                class="col-md-4 control-label text-right">Image</label>
-                            {{ form.Image }}
-                        </table>
-
-
-                    </div>
-                    <div class="form-group clearfix">
-                        <label for="{{ form.phone_number.id_for_label }}"
-                            class="col-md-4 control-label text-right">Phone Number:</label>
+                        <!-- <input id="id_image" type="file" class="my-2" name="image">
+                        <label for="{{ form.Image.id_for_label }}" class="col-md">Image</label> -->
+                           <label for="{{ form.phone_number.id_for_label }}" class="col-md-4 control-label text-right">Profile image:</label>
+                            <div class="col-md-6">
+                                 {{ form.Image }}
+                            </div>
+                                
+                            
+                        </div>
+                        <div class="form-group clearfix">
+                        <label for="{{ form.phone_number.id_for_label }}" class="col-md-4 control-label text-right">Phone Number:</label>
                         <div class="col-md-6">
                             {{ form.phone_number }}
                         </div>
