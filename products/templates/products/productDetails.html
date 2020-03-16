@@ -1,6 +1,6 @@
 {% extends "BaseLine.html" %}
 {% block content %}
-    <div class="mt-5 pt-5"  align="center" >
+    <div class="mt-5 pt-5 mb-5 pb-5" align="center">
         <img src="{{ product.productImg.url }}" class="card-img-top" style="width:200px;height:200px;">
         <div class="card-body">
             <h5 class="card-title">{{ product.productName }}</h5>
@@ -13,12 +13,23 @@
             <li class="list-group-item">  {{ product.productPrice }} $</li>
         </ul>
 
-        <form method='POST' >
-             {% csrf_token %}
+        <form method='POST'>
+            {% csrf_token %}
             {{ form.as_p }}
-            <input type="hidden" name= "productID"  value="{{ product.productID }}"/>
+            <input type="hidden" name="productID" value="{{ product.productID }}"/>
             <input type="submit" value="Review Product"/>
         </form>
+        <form action="/cart/" method="post">
+            {% csrf_token %}
+            <input class="form-control" hidden="true" id="text1" name="text1" type="text"
+                   value="{{ product.productID }}">
 
+            <input class="form-control" hidden="true" id="text2" name="text2" type="text" value="1">
+
+            <button type="submit" class="btn btn-primary m-2" value="AddToCart">Add to
+                Cart
+            </button>
+        </form>
     </div>
+
 {% endblock %}

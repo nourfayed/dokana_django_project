@@ -2,7 +2,7 @@
 {% block content %}
     {#<div class="search-split">#}
     <div class="row container-fluid mt-5 pt-5">
-        <div class="col-md-3">
+        <div class="col-md-3 p-2">
             {#        <form method="post" action="">#}
             {#            {% csrf_token %}#}
             {#            <div class="input-append m-2">#}
@@ -16,28 +16,24 @@
             {#            </div>#}
             <form method="post" action="">
                 {% csrf_token %}
-                <div class="bg-light col-12 align-items-center justify-content-center">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="pt-3">
-                            <div class="form-group ">
+                <div class="row bg-light col-12  align-items-center justify-content-center m-2">
+{#                    <div class="row align-items-center justify-content-center m-2">#}
+                        <div class="pt-3 row">
                                 {% if filter.name %}
-                                    <input type="text" class="search-query col-12 mr-sm-2" value="{{ filter.name }}"
+                                    <input type="text" class="form-control mr-2 search-query col-8" value="{{ filter.name }}"
                                            name="product"
                                            id="product">
                                 {% else %}
-                                    <input type="text" class="search-query col-12 mr-sm-2" placeholder="Search"
+                                    <input type="text" class="form-control mr-2 search-query col-8" placeholder="Search"
                                            name="product"
                                            id="product">
 
                                 {% endif %}
 
-                                <div class="form-group mt-2">
-                                    <button type="submit" class="btn btn-primary btn-block">Search</button>
-                                </div>
-                            </div>
+                                    <button type="submit" class="btn btn-primary btn-block col-md-3 ">Search</button>
                         </div>
 
-                        <div class="select-container w-100">
+                        <div class="select-container w-100 pt-3" align="center">
                             <label>Category</label>
                             <select id="category" class="custom-select mr-sm-2" name="category">
                                 {% autoescape off %}
@@ -45,7 +41,7 @@
                                 {% endautoescape %}
                             </select>
                         </div>
-                        <div class="w-100 pt-3">
+                        <div class="w-100 pt-3" align="center">
                             <div class="form-group">
                                 <label>Min Price : </label>
                                 <span style="font-weight:bold;color:blue" id="min_price_s"
@@ -57,7 +53,7 @@
                                 {#                               data-suffix="$">#}
                             </div>
                         </div>
-                        <div class=" pt-3 w-100">
+                        <div class=" pt-3 w-100" align="center">
                             <div class="form-group">
                                 <label>Max Price : </label>
                                 <span style="font-weight:bold;color:blue" id="max_price_s"
@@ -66,7 +62,7 @@
                                        value="{{ filter.max_p }}" id="max_price" name="max_price">
                             </div>
                         </div>
-                        <div class=" pt-3 w-100">
+                        <div class=" pt-3 w-100" align="center">
                             <div class="form-group">
                                 <label>Min Rate : </label>
                                 <span style="font-weight:bold;color:blue" id="min_rate_s"
@@ -75,7 +71,7 @@
                                        class="slider" step="0.5" id="min_rate" name="min_rate">
                             </div>
                         </div>
-                        <div class=" pt-3 w-100">
+                        <div class=" pt-3 w-100" align="center">
                             <div class="form-group">
                                 <label>Max Rate</label>
                                 <span style="font-weight:bold;color:blue" id="max_rate_s"
@@ -85,7 +81,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+{#                </div>#}
             </form>
         </div>
 
@@ -111,6 +107,19 @@
 
                             </div>
                         </div>
+                    </div>
+                    <div class=" float-right">
+                        <form action="/cart/" method="post">
+                            {% csrf_token %}
+                            <input class="form-control" hidden="true" id="text1" name="text1" type="text"
+                                   value="{{ p.productID }}">
+
+                            <input class="form-control" hidden="true" id="text2" name="text2" type="text" value="1">
+
+                            <button type="submit" class="btn btn-primary float-right mb-2" value="AddToCart">Add to
+                                Cart
+                            </button>
+                        </form>
                     </div>
                 </div>
 
