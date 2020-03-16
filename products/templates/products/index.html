@@ -1,38 +1,20 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <title>Document</title>
-</head>
-<body>
-
-<div>
-
-    <form action="/search/" method="post">
-        {% csrf_token %}
-        <input type="text" id="product" name="product" placeholder="Enter Product Name">
-        <input type="submit" value="Search">
-    </form>
-    {% block  content %}
+{% extends "BaseLine.html" %}
+{% block  content %}
 
         {% if  latest_products %}
 
-            <p>
-                <img src="{{ latest_products.product_img.url }}" style="width:200px;height:200px;">
-            </p>
-
-            <!-- <p>  Product ID: {{latest_products.product_ID}}</p> -->
-            <p> Product Name: {{ latest_products.product_name }}</p>
-            <p> Product Details: {{ latest_products.product_details }}</p>
-            <p> Product Model: {{ latest_products.product_model }}</p>
-            <p> Product Average Rating: {{ latest_products.product_average_rating }}</p>
-            <p> Product Count: {{ latest_products.product_count }}</p>
-
+            {% for product in latest_products %}
+                <div class="mt-5 pt-5">
+                <form method="post" action="/products/productDetails/">
+                    {% csrf_token %}
+                    <img src="{{ product.productImg.url }}" class="card-img-top"  style="width:200px;height:200px;">
+                    <h5 class="card-title">{{ product.productName }}</h5>
+                    <p class="card-text"> {{ product.productPrice }} $ </p>
+                    <input type="hidden" name= "productID"  value="{{ product.productID }}"/>
+                    <input type="submit" name="showDetails" value="Show Details"/>
+                </form>
+                </div>
+            {% endfor %}
 
         {% else %}
 
@@ -40,8 +22,4 @@
 
         {% endif %}
     {% endblock %}
-</div>
 
-
-</body>
-</html>

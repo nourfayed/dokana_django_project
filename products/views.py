@@ -1,3 +1,7 @@
+from django.shortcuts import render, redirect
+from .models import Category, Products
+from .forms import ReviewForm
+from User.models import User
 from django.db.models import Q
 from django.shortcuts import render
 from .models import Category, Products, SubCategory
@@ -5,11 +9,39 @@ from .models import Category, Products, SubCategory
 
 # Create your views here.
 def index(request):
+    products = Products()
+    latest_products = products.getAllProducts()
+    data = {'latest_products': latest_products}
+    return render(request, 'products/index.html', data)
+
     latest_products = Products.objects.get(pk=1)
     print("w eh kaman")
     print(latest_products)
     Data = {'latest_products': latest_products}
     return render(request, 'products/index.html', Data)
+
+
+def showDetails(request):
+    currentProductId = request.POST.get('productID', '')
+    print("Current product id from show details................................")
+    print(currentProductId)
+    product = Products.objects.get(productID=currentProductId)
+
+    form = ReviewForm(request.POST)
+    if form.is_valid():
+        review = form.save(commit=False)
+        review.productID = product
+        user = User()
+        user.userId = 1
+        user.userName = "7amada"
+        user.email = "fgklhkk@gmail.com"
+        user.password = "12435465rydf"
+        user.phone = 1234546
+        user.save()
+        review.userID = user
+        review.save()
+    data = {'product': product, 'form': form}
+    return render(request, "products/productDetails.html", data)
 
 
 def search(request):
@@ -20,7 +52,15 @@ def search(request):
     min_rate = request.POST.get('min_rate', '')
     max_rate = request.POST.get('max_rate', '')
 
-    if category == '':
+    sub_cats = SubCategory.objects.all();
+    sub_cats = tuple(sub_cats)
+    sub_cats_name = []
+    for sub in sub_cats:
+        sub_cats_name.append(sub.subCatName)
+    sub_cats_name = tuple(sub_cats_name)
+    print(sub_cats_name[0])
+    print(category)
+    if category not in sub_cats_name:
         category = 'All'
     if min_price == '':
         min_price = '0'
@@ -31,7 +71,7 @@ def search(request):
     if max_rate == '':
         max_rate = '5'
 
-    print(category+" "+min_price+" "+max_price+" "+min_rate+" "+max_price)
+    print(category + " " + min_price + " " + max_price + " " + min_rate + " " + max_price)
 
     search_filter = {
         'name': productName,
@@ -44,10 +84,10 @@ def search(request):
 
     categories = Category.objects.all()
     cats = tuple(categories)
-    if category=="All":
-        final_cat="<option value=" + category + " selected>" + category + "</option>"
+    if category == "All":
+        final_cat = "<option value=" + category + " selected>" + "All" + "</option>"
     else:
-        final_cat="<option value=" + category + ">" + category + "</option>"
+        final_cat = "<option value=" + category + ">" + "All" + "</option>"
 
     for cat in cats:
         final_cat = final_cat + "<optgroup label=" + cat.categoryName + ">"
@@ -64,15 +104,12 @@ def search(request):
         #     final_cat.append(s.subCatName)
         # # print(subCat)
 
-    print('final::::::::::' + final_cat)
     if category == 'All':
         products = Products.objects.filter(Q(productName__contains=productName))
     else:
         cat_id = SubCategory.objects.get(subCatName=category)
-        print(cat_id)
         # products = Products.objects.filter(Q(productName__contains=productName) and Q(category=cat_id))
-        products = Products.objects.filter(Q(productName__contains=productName) & Q(category=cat_id))
-        print(products.__str__())
+        products = Products.objects.filter(Q(productName__contains=productName) & Q(categoryID=cat_id))
 
     if products:
         products = filter(lambda x: price__less_than(max_price, x), products)
@@ -97,8 +134,8 @@ def price__more_than(min, element):
 
 
 def rate__less_than(max, product):
-    return int(product.productAverage_rating) <= int(max)
+    return int(product.productAverageRating) <= int(max)
 
 
 def rate__more_than(min, element):
-    return int(element.productAverage_rating) >= int(min)
+    return int(element.productAverageRating) >= int(min)

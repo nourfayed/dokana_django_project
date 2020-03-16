@@ -1,0 +1,24 @@
+{% extends "BaseLine.html" %}
+{% block content %}
+    <div class="mt-5 pt-5"  align="center" >
+        <img src="{{ product.productImg.url }}" class="card-img-top" style="width:200px;height:200px;">
+        <div class="card-body">
+            <h5 class="card-title">{{ product.productName }}</h5>
+            <p class="card-text">{{ product.productDetails }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"> Product Model: {{ product.productModel }} </li>
+            <li class="list-group-item"> Average Rating: {{ product.productAverageRating }} </li>
+            <li class="list-group-item"> Items Left in Stock: {{ product.productCount }} </li>
+            <li class="list-group-item">  {{ product.productPrice }} $</li>
+        </ul>
+
+        <form method='POST' >
+             {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name= "productID"  value="{{ product.productID }}"/>
+            <input type="submit" value="Review Product"/>
+        </form>
+
+    </div>
+{% endblock %}
