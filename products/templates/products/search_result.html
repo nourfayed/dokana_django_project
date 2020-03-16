@@ -112,6 +112,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class=" float-right">
+                        <form action="/cart/" method="post">
+                            {% csrf_token %}
+                            <input class="form-control" hidden="true" id="text1" name="text1" type="text"
+                                   value="{{ p.productID }}">
+
+                            <input class="form-control" hidden="true" id="text2" name="text2" type="text" value="1">
+
+                            <button type="submit" class="btn btn-primary float-right mb-2" value="AddToCart">Add to
+                                Cart
+                            </button>
+                        </form>
+                    </div>
                 </div>
 
             {% endfor %}
