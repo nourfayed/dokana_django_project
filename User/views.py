@@ -73,20 +73,24 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         # Check username and password combination if correct
-        user=User.objects.get(userName=username)
-
-        # user_name=User.objects.get(userName=username)
-        # user_password=User.objects.get(password=password)
-        # if (user_name==)
+        try:
+            user=User.objects.get(userName=username)
+        except:
+            return render(request, 'user/login.html', {'error_message': 'Incorrect username and / or password.'})
+        
         if user is not None:
             # Save session as cookie to login the user
+             
             if user.password == password:
-                # login(request, user)
             # Success, now let's login the user.
                 return render(request, 'user/profile.html')
+            else:
+            #   throw an error to the screen.
+                return render(request, 'user/login.html', {'error_message': 'Incorrect username and / or password.'})
         else:
             #   throw an error to the screen.
             return render(request, 'user/login.html', {'error_message': 'Incorrect username and / or password.'})
+            
     else:
         return render(request, 'user/login.html')
 
