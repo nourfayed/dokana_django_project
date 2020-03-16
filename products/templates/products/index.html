@@ -1,10 +1,11 @@
 {% extends "BaseLine.html" %}
 {% block  content %}
 
-        {% if  latest_products %}
+    <div class="container">
+           {% if  latest_products %}
 
             {% for product in latest_products %}
-                <div class="mt-5 pt-5">
+                <div class="mt-5 pt-5 col">
                 <form method="post" action="/products/productDetails/">
                     {% csrf_token %}
                     <img src="{{ product.productImg.url }}" class="card-img-top"  style="width:200px;height:200px;">
@@ -21,5 +22,6 @@
             Mafish 7aga ya basha
 
         {% endif %}
+    </div>
     {% endblock %}
 
