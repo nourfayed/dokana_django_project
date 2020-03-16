@@ -63,10 +63,10 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">Product name {{ c.productID }}</h5>
-                                <p class="card-text">product price .</p>
-                                <p class="card-text">product descriptions .</p>
-
+                                <h5 class="card-title">Product name : {{ c.productID }}</h5>
+                                <p class="card-text">product price : {{ c.productID.productPrice }}</p>
+                                <p class="card-text"
+                                   style="width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ c.productID.productDetails }}</p>
                             </div>
                         </div>
                     </div>
