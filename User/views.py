@@ -87,7 +87,7 @@ def user_login(request):
                 user_status=True
                 request.session['logged'] = True
                 request.session['id'] = user.userId
-                return render(request, 'user/profile.html')
+                return redirect('/profile/'+user.userId.__str__())
             else:
             #   throw an error to the screen.
                 return render(request, 'user/login.html', {'error_message': 'Incorrect username and / or password.'})
