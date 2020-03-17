@@ -42,13 +42,21 @@
         </form>
     </nav>
 
-    <ul class="navbar-nav ml-auto nav-flex-icons">
-        <li class="nav-item avatar">
-            <a class="nav-link p-0" href="#">
-                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
-                     alt="avatar image" height="35">
-            </a>
-        </li>
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+      <li class="nav-item avatar">
+        {% if request.session.logged == True %}
+        <a class="nav-link p-0" href="/profile/{{ request.session.id }}">
+          <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
+            alt="avatar image" height="35">
+        </a>
+        {% else %}
+        <a class="nav-link p-0" href="/Login">
+          Login
+          <!-- <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
+            alt="avatar image" height="35"> -->
+        </a>
+        {% endif %}
+      </li>
     </ul>
     </div>
 </nav>
@@ -95,128 +103,130 @@
 {#</div>#}
 
 
+
+
 <!-- Footer -->
 <footer class="page-footer font-small indigo bg-dark">
 
-    <!-- Footer Links -->
-    <div class="container text-center text-md-left">
+  <!-- Footer Links -->
+  <div class="container text-center text-md-left">
 
-        <!-- Grid row -->
-        <div class="row">
+    <!-- Grid row -->
+    <div class="row">
 
-            <!-- Grid column -->
-            <div class="col-md-3 mx-auto">
+      <!-- Grid column -->
+      <div class="col-md-3 mx-auto">
 
-                <!-- Links -->
-                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+        <!-- Links -->
+        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
 
-                <ul class="list-unstyled">
-                    <li>
-                        <a href="#!">Very long link 1</a>
-                    </li>
-                    <li>
-                        <a href="#!">Very long link 2</a>
-                    </li>
-                    <li>
-                        <a href="#!">Very long link 3</a>
-                    </li>
-                    <li>
-                        <a href="#!">Very long link 4</a>
-                    </li>
-                </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a href="#!">Very long link 1</a>
+          </li>
+          <li>
+            <a href="#!">Very long link 2</a>
+          </li>
+          <li>
+            <a href="#!">Very long link 3</a>
+          </li>
+          <li>
+            <a href="#!">Very long link 4</a>
+          </li>
+        </ul>
 
-            </div>
-            <!-- Grid column -->
+      </div>
+      <!-- Grid column -->
 
-            <hr class="clearfix w-100 d-md-none">
+      <hr class="clearfix w-100 d-md-none">
 
-            <!-- Grid column -->
-            <div class="col-md-3 mx-auto">
+      <!-- Grid column -->
+      <div class="col-md-3 mx-auto">
 
-                <!-- Links -->
-                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+        <!-- Links -->
+        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
 
-                <ul class="list-unstyled">
-                    <li>
-                        <a href="#!">Link 1</a>
-                    </li>
-                    <li>
-                        <a href="#!">Link 2</a>
-                    </li>
-                    <li>
-                        <a href="#!">Link 3</a>
-                    </li>
-                    <li>
-                        <a href="#!">Link 4</a>
-                    </li>
-                </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a href="#!">Link 1</a>
+          </li>
+          <li>
+            <a href="#!">Link 2</a>
+          </li>
+          <li>
+            <a href="#!">Link 3</a>
+          </li>
+          <li>
+            <a href="#!">Link 4</a>
+          </li>
+        </ul>
 
-            </div>
-            <!-- Grid column -->
+      </div>
+      <!-- Grid column -->
 
-            <hr class="clearfix w-100 d-md-none">
+      <hr class="clearfix w-100 d-md-none">
 
-            <!-- Grid column -->
-            <div class="col-md-3 mx-auto">
+      <!-- Grid column -->
+      <div class="col-md-3 mx-auto">
 
-                <!-- Links -->
-                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+        <!-- Links -->
+        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
 
-                <ul class="list-unstyled">
-                    <li>
-                        <a href="#!">Link 1</a>
-                    </li>
-                    <li>
-                        <a href="#!">Link 2</a>
-                    </li>
-                    <li>
-                        <a href="#!">Link 3</a>
-                    </li>
-                    <li>
-                        <a href="#!">Link 4</a>
-                    </li>
-                </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a href="#!">Link 1</a>
+          </li>
+          <li>
+            <a href="#!">Link 2</a>
+          </li>
+          <li>
+            <a href="#!">Link 3</a>
+          </li>
+          <li>
+            <a href="#!">Link 4</a>
+          </li>
+        </ul>
 
-            </div>
-            <!-- Grid column -->
+      </div>
+      <!-- Grid column -->
 
-            <hr class="clearfix w-100 d-md-none">
+      <hr class="clearfix w-100 d-md-none">
 
-            <!-- Grid column -->
-            <div class="col-md-3 mx-auto">
+      <!-- Grid column -->
+      <div class="col-md-3 mx-auto">
 
-                <!-- Links -->
-                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+        <!-- Links -->
+        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
 
-                <ul class="list-unstyled">
-                    <li>
-                        <a href="#!">Link 1</a>
-                    </li>
-                    <li>
-                        <a href="#!">Link 2</a>
-                    </li>
-                    <li>
-                        <a href="#!">Link 3</a>
-                    </li>
-                    <li>
-                        <a href="#!">Link 4</a>
-                    </li>
-                </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a href="#!">Link 1</a>
+          </li>
+          <li>
+            <a href="#!">Link 2</a>
+          </li>
+          <li>
+            <a href="#!">Link 3</a>
+          </li>
+          <li>
+            <a href="#!">Link 4</a>
+          </li>
+        </ul>
 
-            </div>
-            <!-- Grid column -->
-
-        </div>
-        <!-- Grid row -->
+      </div>
+      <!-- Grid column -->
 
     </div>
-    <!-- Footer Links -->
+    <!-- Grid row -->
 
-    <!-- Copyright -->
-    <div class="footer-copyright text-center py-3">© 2020 Copyright:
-        <a href="https://google.com/"> JankovicDesgins.com</a>
-    </div>
-    <!-- Copyright -->
+  </div>
+  <!-- Footer Links -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2020 Copyright:
+    <a href="https://google.com/"> JankovicDesgins.com</a>
+  </div>
+  <!-- Copyright -->
 
 </footer>
 <style>
@@ -231,8 +241,11 @@
     }
 
     {% block style %}{% endblock %}
-</style>
+    </style>
 <!-- Footer -->
+
+
+
 
 
 {% block myJavascript %}{% endblock %}
