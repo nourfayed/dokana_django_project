@@ -8,7 +8,7 @@ from products.models import Category
 
 class HomePageView(ListView):
     model = Category
-    template_name = 'test.html'
+    template_name = 'ProductsSideBySide.html'
 
 
 class CartPageView(ListView):
