@@ -49,7 +49,18 @@
 </nav>
 
 
+<div class="sidenav mt-5 pt-5  ">
+    {% for Category in object_list %}
 
+        <a href="#">{{ Category }}</a>
+        <li class="ml-5">Sub Cat</li>
+        <li class="ml-5">Sub Cat</li>
+        <li class="ml-5">Sub Cat</li>
+        <li class="ml-5">Sub Cat</li>
+    {% endfor %}
+
+
+</div>
 
 
 <div class="container-fluid">
