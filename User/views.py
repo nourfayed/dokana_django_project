@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate
 # Create your views here.
 from Cart.models import History
-from User.forms import ChangePasswordForm
+from User.forms import ChangePasswordForm, ImageForm
 from User.models import User, Address
 from .forms import RegisterForm, ImageUploadForm
 import logging
@@ -101,9 +101,10 @@ from products.models import Products
 def profile(request, pk):
     user_profile = User.objects.get(userId=pk)
     addresses = Address.objects.filter(userID=pk)
+    imageForm = ImageForm()
 
     return render(request, 'user/profile.html',
-                  {'profile': user_profile, 'address1': addresses[0].address, 'address2': addresses[1].address})
+                  {'profile': user_profile, 'img_form': ImageForm, 'address1': addresses[0].address, 'address2': addresses[1].address})
 
 
 def history(request, pk):
