@@ -1,5 +1,5 @@
 from django.forms import forms
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, TemplateView
 
 from Cart.models import Cart
@@ -20,3 +20,6 @@ class TestPageView(ListView):
     model = Cart
     template_name = 'te.html'
 
+
+def redirectToProducts(request):
+    return redirect('/products/')
