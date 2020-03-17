@@ -41,7 +41,7 @@
         <ul class="navbar-nav ml-auto nav-flex-icons">
       <li class="nav-item avatar">
         {% if request.session.logged == True %}
-        <a class="nav-link p-0" href="/profile">
+        <a class="nav-link p-0" href="/profile/{{ request.session.id }}">
           <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
             alt="avatar image" height="35">
         </a>
