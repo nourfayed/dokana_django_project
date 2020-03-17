@@ -64,7 +64,7 @@ def user_register(request):
 
 
 # login authentication
-
+user_status=False # flag check if the user logged in ?
 def user_login(request):
     if request.method == 'POST':
 
@@ -82,7 +82,9 @@ def user_login(request):
             # Save session as cookie to login the user
              
             if user.password == password:
+                # login(request, user)
             # Success, now let's login the user.
+                user_status=True
                 return render(request, 'user/profile.html')
             else:
             #   throw an error to the screen.

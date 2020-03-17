@@ -37,13 +37,17 @@
             <button class="btn btn-outline-primary  my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
-
+<!-- check if user logged in or not and redirect it  -->
         <ul class="navbar-nav ml-auto nav-flex-icons">
       <li class="nav-item avatar">
-        <a class="nav-link p-0" href="#">
+        {% if user_status == True %}
+        <a class="nav-link p-0" href="profile.html">
           <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
             alt="avatar image" height="35">
         </a>
+        {% else %} 
+        <a class="nav-link p-0" href="login.html"></a>
+        {% endif %}
       </li>
     </ul>
 </div>
