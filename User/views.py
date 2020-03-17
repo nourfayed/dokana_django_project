@@ -1,28 +1,28 @@
-from django.shortcuts import render,redirect
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
-from django.contrib.auth import login,authenticate
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, authenticate
 # Create your views here.
 from Cart.models import History
-from User.forms import ChangePasswordForm
+from User.forms import ChangePasswordForm, ImageForm
 from User.models import User, Address
-from .forms import RegisterForm,ImageUploadForm
+from .forms import RegisterForm, ImageUploadForm
 import logging
+
 
 def user_register(request):
     # if this is a POST request we need to process the form data
     template = 'user/register.html'
 
-
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = RegisterForm(request.POST)
         photo_upload_form = ImageUploadForm(request.POST, request.FILES)
-        print("sssss"+form.data.get('username'))
+        print("sssss" + form.data.get('username'))
 
-    #     context = {
-    #     "form": form,
-    #     "photo_upload_form": photo_upload_form
-    # }
+        #     context = {
+        #     "form": form,
+        #     "photo_upload_form": photo_upload_form
+        # }
         # check whether it's valid:
         if form:
             if User.objects.filter(userName=form.data.get('username')):
@@ -35,7 +35,7 @@ def user_register(request):
                     'form': form,
                     'error_message': 'Email already exists.'
                 })
-            elif form.data.get('password')!= form.data.get('password_repeat'):
+            elif form.data.get('password') != form.data.get('password_repeat'):
                 return render(request, template, {
                     'form': form,
                     'error_message': 'Passwords do not match.'
@@ -53,11 +53,11 @@ def user_register(request):
                 # user.first_name = form.cleaned_data['first_name']
                 # user.last_name = form.cleaned_data['last_name']
                 # user.phone_number = form.cleaned_data['phone_number']
-                #user.save()
+                # user.save()
 
 
 
-   # No post data availabe, let's just show the page.
+    # No post data availabe, let's just show the page.
     else:
         form = RegisterForm()
     return render(request, template, {'form': form})
@@ -98,15 +98,17 @@ def user_login(request):
     else:
         return render(request, 'user/login.html')
 
+
 from products.models import Products
 
 
 def profile(request, pk):
     user_profile = User.objects.get(userId=pk)
     addresses = Address.objects.filter(userID=pk)
+    imageForm = ImageForm()
 
     return render(request, 'user/profile.html',
-                  {'profile': user_profile, 'address1': addresses[0].address, 'address2': addresses[1].address})
+                  {'profile': user_profile, 'img_form': ImageForm, 'address1': addresses[0].address, 'address2': addresses[1].address})
 
 
 def history(request, pk):
@@ -134,6 +136,9 @@ def changePass(request, pk):
                 user.password = request.POST.get('new_password', '')
                 user.save()
                 return render(request, 'user/pass_ok.html')
+            else:
+                return render(request, 'user/ch_password.html', {'form': form, 'e': "Old Password Incorrect"})
+
     else:
         form = ChangePasswordForm()
 

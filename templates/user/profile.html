@@ -1,47 +1,122 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Profile</title>
+{% extends "BaseLine.html" %}
+{% block content %}
+    <form method="post" action="">
 
-</head>
-<body>
-<div>
-    <table>
-        <tbody>
-        <tr>
-            <td> User Name :</td>
-            <td> {{ profile.userName }}</td>
-        </tr>
+        <div class="conatainer row m-5 p-5">
+            {% csrf_token %}
+            <div class="col-3 align-items-center">
+                <img src="{{ profile.userImage.url }}" class="rounded-circle col-10 m-3" alt="{{ profile.userImage }}">
+                <div class="col-12">
+                    {{ img_form.as_p }}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="FullName">User Name</label>
+                    <div class="col-md-8">
+                        <input id="FullName" name="FullName" type="text" placeholder="User Name"
+                               class="form-control input-md"
+                               required="" value="{{ profile.userName }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="FullName">E-mail</label>
+                    <div class="col-md-8">
+                        <input id="FullName" name="FullName" type="text" placeholder="User Name"
+                               class="form-control input-md"
+                               required="" value="{{ profile.email }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="FullName">Phone number</label>
+                    <div class="col-md-8">
+                        <input id="FullName" name="FullName" type="number" maxlength="11" minlength="11"
+                               placeholder="User Name" class="form-control input-md"
+                               required="" value="{{ profile.phone }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="FullName">Home address</label>
+                    <div class="col-md-8">
+                        <input id="FullName" name="FullName" type="text" placeholder="User Name"
+                               class="form-control input-md"
+                               required="" value="{{ address1 }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="FullName">Work address</label>
+                    <div class="col-md-8">
+                        <input id="FullName" name="FullName" type="text" placeholder="User Name"
+                               class="form-control input-md"
+                               required="" value="{{ address2 }}">
+                    </div>
+                </div>
+                <div class="form-group col-1">
+                    <input type="submit" class=" btn btn-primary" value="Save Changes">
 
-        <tr>
-            <td> Email :</td>
-            <td> {{ profile.email }}</td>
-        </tr>
-        <tr>
-            <td> Phone :</td>
-            <td> {{ profile.phone }}</td>
+                </div>
+            </div>
 
-        </tr>
+                <div class="form-group col-3">
+                    <a href="changePassword/" class=" btn btn-primary m-2 co-12">Change Password</a>
+                    <a href="history/" class="btn btn-primary m-2 co-12">Show History</a>
 
-        <tr>
-            <td> Address 1 :</td>
-            <td> {{ address1 }}</td>
-        </tr>
+                </div>
 
-        <tr>
-            <td> Address 2 :</td>
-            <td> {{ address2 }}</td>
-        </tr>
 
-        </tbody>
-    </table>
-</div>
 
-<div>
-    <a href="changePassword/"><input type="button" value="Change Password"></a>
-    <a href="history/">    <input type="button" value="Show History"></a>
+        </div>
+    </form>
 
-</div>
-</body>
-</html>
+{% endblock %}
+
+{##}
+{##}
+{##}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Profile</title>#}
+{##}
+{#</head>#}
+{#<body>#}
+{#<div>#}
+{#    <table>#}
+{#        <tbody>#}
+{#        <tr>#}
+{#            <td> User Name :</td>#}
+{#            <td> {{ profile.userName }}</td>#}
+{#        </tr>#}
+{##}
+{#        <tr>#}
+{#            <td> Email :</td>#}
+{#            <td> {{ profile.email }}</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td> Phone :</td>#}
+{#            <td> {{ profile.phone }}</td>#}
+{##}
+{#        </tr>#}
+{##}
+{#        <tr>#}
+{#            <td> Address 1 :</td>#}
+{#            <td> {{ address1 }}</td>#}
+{#        </tr>#}
+{##}
+{#        <tr>#}
+{#            <td> Address 2 :</td>#}
+{#            <td> {{ address2 }}</td>#}
+{#        </tr>#}
+{##}
+{#        </tbody>#}
+{#    </table>#}
+{#</div>#}
+{##}
+{#<div>#}
+{#    <a href="changePassword/"><input type="button" value="Change Password"></a>#}
+{#    <a href="history/">    <input type="button" value="Show History"></a>#}
+{##}
+{#</div>#}
+{#</body>#}
+{#</html>#}

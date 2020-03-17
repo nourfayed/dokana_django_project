@@ -31,9 +31,13 @@
 
     </div>
 
-    <nav class="navbar ">
-        <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <nav class="navbar">
+        <form class="form-inline" method="post" action="/search/">
+            {% csrf_token %}
+            {#            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="product"#}
+            {#                   id="product">#}
+            <input type="text" class="form-control mr-sm-2 search-query" value="{{ filter.name }}"
+                   name="product" id="product">
             <button class="btn btn-outline-primary  my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
@@ -54,10 +58,10 @@
         {% endif %}
       </li>
     </ul>
-</div>
+    </div>
 </nav>
 
-{% block content%}{% endblock  %}
+{% block content %}{% endblock %}
 {##}
 {#<div class="row row-cols-1 row-cols-md-3 pt-5 mt-5">#}
 {#  <div class="col mb-4">#}
