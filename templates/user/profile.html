@@ -4,13 +4,13 @@
 
         <div class="conatainer row m-5 p-5">
             {% csrf_token %}
-            <div class="col-3 align-items-center">
+            <div class="col-md-3 align-items-center">
                 <img src="{{ profile.userImage.url }}" class="rounded-circle col-10 m-3" alt="{{ profile.userImage }}">
                 <div class="col-12">
                     {{ img_form.as_p }}
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="FullName">User Name</label>
                     <div class="col-md-8">
@@ -52,14 +52,29 @@
                     </div>
                 </div>
                 <div class="form-group col-1">
-                    <input type="submit" class=" btn btn-primary" value="Save Changes">
+                    <input type="submit" class=" btn btn-success" value="Save Changes">
 
                 </div>
             </div>
 
-                <div class="form-group col-3">
+                <div class="form-group col-md-3">
                     <a href="changePassword/" class=" btn btn-primary m-2 co-12">Change Password</a>
+                    <br>
                     <a href="history/" class="btn btn-primary m-2 co-12">Show History</a>
+                    <br>
+                    <a href="logout/" class="btn btn-warning m-2 co-12">Logout</a>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <a href="deactivate/" class="btn btn-danger m-2 co-12 row">Deactivate My Account</a>
 
                 </div>
 
