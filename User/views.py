@@ -85,6 +85,7 @@ def user_login(request):
                 # login(request, user)
             # Success, now let's login the user.
                 user_status=True
+                request.session['logged'] = True
                 return render(request, 'user/profile.html')
             else:
             #   throw an error to the screen.
