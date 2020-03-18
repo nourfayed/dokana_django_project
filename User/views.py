@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, authenticate
+# from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+# from django.contrib.auth import login, authenticate
 # Create your views here.
 from Cart.models import History
 from User.forms import ChangePasswordForm, ImageForm
@@ -101,6 +101,33 @@ def user_login(request):
 
 from products.models import Products
 
+# logout function
+def logout(request,pk):
+    try:
+        del request.session['id']
+        request.session['logged'] = False
+    except:
+     pass
+    return redirect('/home/')
+
+# deactivate user 
+from Cart.models import Cart
+
+def delete_profile(request,pk):
+    user_cart=Cart.objects.get(userID=pk)
+    user_history=History.objects.get(userID=pk)
+    user_address=Address.objects.get(userID=pk)
+    user=User.objects.get(userId=pk)
+
+    user_history.deleteUserHistory(pk)
+    user_cart.deleteUserCart(pk)
+    user_address.deleteAllUserAddresses(pk)
+    user.deleteUser(pk)
+
+    user.deleteUser(pk)
+    user.save()
+    # messages.success(request, 'Profile successfully disabled.')
+    return render(request, 'user/login.html', {})
 
 def profile(request, pk):
     user_profile = User.objects.get(userId=pk)

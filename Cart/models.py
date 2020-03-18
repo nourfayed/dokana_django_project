@@ -67,3 +67,6 @@ class Cart(models.Model):
 
     class Meta:
         unique_together = ('productID', 'userID')
+# delete user cart functon when the user deactivated
+    def deleteUserCart(self,userID):
+        Cart.objects.get(self.userID == userID).delete()

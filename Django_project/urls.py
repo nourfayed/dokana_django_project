@@ -26,6 +26,8 @@ urlpatterns = [
                   path('products/', include('products.urls')),
                   path('profile/', include('User.urls')),
                   path('register/', views.user_register, name='user_register'),
+                  path('logout/', views.logout, name='logout'),
+                  path('deactivate/',views.delete_profile,name='deactivate'),
                   #    path('',views.signup_view,name="signup")
                   path('Login/', views.user_login, name="Login"),
                   path('search/', products_views.search, name="search"),
