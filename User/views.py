@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate
 from Cart.models import History
 from User.forms import ChangePasswordForm, ImageForm
 from User.models import User, Address
+from products.models import Products
 from .forms import RegisterForm, ImageUploadForm
 import logging
 
@@ -99,25 +100,23 @@ def user_login(request):
         return render(request, 'user/login.html')
 
 # logout function
-def logout(request):
+def logout(request,pk):
     try:
         del request.session['id']
         request.session['logged'] = False
     except:
      pass
-    return render(request, 'user/login.html', {})
+    return redirect('/home/')
 
 # deactivate user 
-def delete_profile(request):
+def delete_profile(request,pk):
     user = request.user
     user.is_active = False
     user.save()
-    messages.success(request, 'Profile successfully disabled.')
+    # messages.success(request, 'Profile successfully disabled.')
     return render(request, 'user/login.html', {})
 
 
-
-from products.models import Products
 
 
 def profile(request, pk):
