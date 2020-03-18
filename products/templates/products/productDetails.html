@@ -19,17 +19,19 @@
             <input type="hidden" name="productID" value="{{ product.productID }}"/>
             <input type="submit" value="Review Product"/>
         </form>
-        <form action="/cart/" method="post">
-            {% csrf_token %}
-            <input class="form-control" hidden="true" id="text1" name="text1" type="text"
-                   value="{{ product.productID }}">
+        {% if request.session.logged == True %}
+            <form action="/cart/" method="post">
+                {% csrf_token %}
+                <input class="form-control" hidden="true" id="text1" name="text1" type="text"
+                       value="{{ product.productID }}">
 
-            <input class="form-control" hidden="true" id="text2" name="text2" type="text" value="1">
+                <input class="form-control" hidden="true" id="text2" name="text2" type="text" value="{{ request.session.id }}">
 
-            <button type="submit" class="btn btn-primary m-2" value="AddToCart">Add to
-                Cart
-            </button>
-        </form>
+                <button type="submit" class="btn btn-primary m-2" value="AddToCart">Add to
+                    Cart
+                </button>
+            </form>
+        {% endif %}
     </div>
 
 {% endblock %}
