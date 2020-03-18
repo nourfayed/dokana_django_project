@@ -16,12 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path, include
-from .views import HomePageView, TestPageView
+from .views import HomePageView, TestPageView, redirectToProducts
 
 from Django_project import settings
 
 urlpatterns = [
                   path('', HomePageView.as_view(), name='home'),
-                  path('te/', TestPageView.as_view(), name='te')
-
+                  path('te/', TestPageView.as_view(), name='te'),
+                  path('home/',redirectToProducts)
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,7 +9,10 @@ class RegisterForm(forms.Form):
     phone_number = forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control'}), required=False)
 class ImageUploadForm(forms.Form):
     profile_photo = forms.ImageField()
-    
+
+class ImageForm(forms.Form):
+    profile_photo = forms.ImageField(required=False)
+
 class LoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
