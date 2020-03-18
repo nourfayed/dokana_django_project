@@ -36,8 +36,8 @@ class History(models.Model):
 
             history.save()
 
-    def deleteUserHistory(self, userID):
-        History.objects.get(self.userID == userID).delete()
+    def deleteUserHistory(self, pk):
+        History.objects.get(self.pk == userID).delete()
 
     class Meta:
         unique_together = ('userID', 'productID','date')

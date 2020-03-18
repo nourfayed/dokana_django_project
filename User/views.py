@@ -114,20 +114,30 @@ def logout(request,pk):
 from Cart.models import Cart
 
 def delete_profile(request,pk):
-    user_cart=Cart.objects.get(userID=pk)
-    user_history=History.objects.get(userID=pk)
-    user_address=Address.objects.get(userID=pk)
-    user=User.objects.get(userId=pk)
+    try:
+        user_cart=Cart.objects.filter(userID=pk)
+        user_history=History.objects.get(userID=pk)
+        user_address=Address.objects.filter(userID=pk)
+        user=User.objects.get(userId=pk)
+        if user_cart:
+            user_cart.deleteUserCart(pk)
 
-    user_history.deleteUserHistory(pk)
-    user_cart.deleteUserCart(pk)
-    user_address.deleteAllUserAddresses(pk)
-    user.deleteUser(pk)
+        if user_history:
+            user_history.deleteUserHistory(pk)
+        
+        if user_address:
+            user_address.deleteAllUserAddresses(pk)
+        
+        if user:
+            user.deleteUser(pk)
 
-    user.deleteUser(pk)
-    user.save()
-    # messages.success(request, 'Profile successfully disabled.')
-    return render(request, 'user/login.html', {})
+         
+        # messages.success(request, 'Profile successfully disabled.')
+        return render(request, 'user/login.html')
+        # user.save()
+    except:
+        return false
+    
 
 def profile(request, pk):
     user_profile = User.objects.get(userId=pk)
