@@ -80,6 +80,23 @@
 </div>
 
 
+<div class="row row-cols-3 row-cols-md-5 pt-5 ml-5">
+    {% for Category in object_list %}
+        <div class="col mb-5" >
+            <div class="card " >
+                <img src="https://imgix.bustle.com/uploads/getty/2020/3/12/5aa737ee-d142-476f-b3d8-e863e2b56648-getty-688398000.jpg?w=970&h=546&fit=crop&crop=faces&auto=format&q=70"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <a class="card-title" href="#">{{ Category }}</a>
+
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+</div>
+
+
 
 <!-- Footer -->
 <footer class="page-footer font-small indigo bg-dark">
