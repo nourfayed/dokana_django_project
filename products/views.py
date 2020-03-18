@@ -4,21 +4,25 @@ from .forms import ReviewForm
 from User.models import User
 from django.db.models import Q
 from django.shortcuts import render
-from .models import Category, Products, SubCategory
+from .models import Category, Products, SubCategory,Reviews
 
 
-# Create your views here.
 def index(request):
     products = Products()
-    latest_products = products.getAllProducts()
-    data = {'latest_products': latest_products}
-    return render(request, 'products/index.html', data)
+    categories = Category()
+    sub_categories= SubCategory()
 
-    latest_products = Products.objects.get(pk=1)
-    print("w eh kaman")
-    print(latest_products)
-    Data = {'latest_products': latest_products}
-    return render(request, 'products/index.html', Data)
+    latest_products = products.getAllProducts()
+    availableCategories = categories.getAllCategories()
+    allSubcategories = []
+    for category in availableCategories:
+        filteredSubcategories=[]
+        filteredSubcategories.append(category)
+        filteredSubcategories+=sub_categories.getSubcategoryByCategoryID(category.categoryID)
+        allSubcategories.append(filteredSubcategories)
+
+    data = {'latest_products': latest_products,  'allSubcategories': allSubcategories}
+    return render(request, 'products/index.html', data)
 
 
 def showDetails(request):
@@ -40,7 +44,23 @@ def showDetails(request):
         user.save()
         review.userID = user
         review.save()
-    data = {'product': product, 'form': form}
+
+    categories = Category()
+    availableCategories = categories.getAllCategories()
+
+    sub_categories = SubCategory()
+    allSubcategories = []
+
+    for category in availableCategories:
+        filteredSubcategories = []
+        filteredSubcategories.append(category)
+        filteredSubcategories += sub_categories.getSubcategoryByCategoryID(category.categoryID)
+        allSubcategories.append(filteredSubcategories)
+
+    reviews = Reviews()
+    pastReviews = reviews.getReviewsByProductID(currentProductId)
+
+    data = {'product': product, 'form': form, 'allSubcategories': allSubcategories, 'pastReviews': pastReviews}
     return render(request, "products/productDetails.html", data)
 
 

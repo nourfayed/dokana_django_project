@@ -5,6 +5,7 @@ from User.models import User
 
 
 class Category(models.Model):
+    objects = models.Manager()
     categoryID = models.IntegerField(primary_key=True)
     categoryName = models.TextField(max_length=20)
 
@@ -23,12 +24,26 @@ class Category(models.Model):
         self.categoryName = newName
         Category.save()
 
+    def getAllCategories(self):
+        categories = Category.objects.all()
+        return categories
+
 class SubCategory(models.Model):
+    objects = models.Manager()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     subCatName = models.CharField(max_length=100)
 
     def __str__(self):
         return self.subCatName
+
+    def getSubcategoryByCategoryID(self, currentCategoryID):
+        allSubcategories=SubCategory.objects.all()
+        filteredSubCategories=[]
+        for subcategory in allSubcategories:
+            if subcategory.category.categoryID == int(currentCategoryID):
+                filteredSubCategories.append(subcategory.subCatName)
+
+        return filteredSubCategories
 
 class Products(models.Model):
     objects = models.Manager()
@@ -42,7 +57,6 @@ class Products(models.Model):
     productCount = models.IntegerField(default=0)
     productPrice = models.IntegerField(default=0)
 
-    # product state ??? product sub-category ??
 
     def deceaseCount(self, current_id):
         product = Products.objects.get(id=current_id)
@@ -65,12 +79,10 @@ class Products(models.Model):
     def __str__(self):
         return self.productName
 
-    # def deleteProduct(self):
-    #
-    #         pass
 
 
 class Reviews(models.Model):
+    objects = models.Manager()
     productID = models.ForeignKey(to=Products, on_delete=models.CASCADE)
     userID = models.ForeignKey(to=User, on_delete=models.CASCADE)
     review = models.TextField(max_length=1000)
@@ -86,6 +98,15 @@ class Reviews(models.Model):
     @classmethod
     def removeReview(cls, userID, productID):
         Reviews.objects.get(Q(userID=userID) & Q(productID=productID))
+
+    def getReviewsByProductID(self, currentProductID):
+        allReviews = Reviews.objects.all()
+        matchedReviews = []
+        for review in allReviews:
+            if review.productID.productID == int(currentProductID):
+                matchedReviews.append(review.review)
+
+        return matchedReviews
 
     class Meta:
         unique_together = ('productID', 'userID')

@@ -1,35 +1,207 @@
-{% extends "BaseLine.html" %}
+<!doctype html>
+<html lang="en">
+<link>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://kit.fontawesome.com/5f47c814bb.js" crossorigin="anonymous"></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<title>Product Details</title>
+</head>
+<body>
 {% block content %}
-    <div class="mt-5 pt-5 mb-5 pb-5" align="center">
-        <img src="{{ product.productImg.url }}" class="card-img-top" style="width:200px;height:200px;">
-        <div class="card-body">
-            <h5 class="card-title">{{ product.productName }}</h5>
-            <p class="card-text">{{ product.productDetails }}</p>
+
+<h1>Product Details</h1>
+
+<nav class="navbar fixed-top navbar-expand-lg p-2 mb-2 bg-dark text-white">
+    <a class="navbar-brand">
+        <img src="https://cdn1.iconfinder.com/data/icons/social-messaging-ui-color-round-1/254000/06-512.png"
+             width="30" height="30" class="d-inline-block align-top" alt="">
+        Dokana
+    </a>
+
+    <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="#">Home</a>
+            <a class="nav-item nav-link" href="#">Features</a>
+            <a class="nav-item nav-link" href="#">Pricing</a>
+
         </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"> Product Model: {{ product.productModel }} </li>
-            <li class="list-group-item"> Average Rating: {{ product.productAverageRating }} </li>
-            <li class="list-group-item"> Items Left in Stock: {{ product.productCount }} </li>
-            <li class="list-group-item">  {{ product.productPrice }} $</li>
-        </ul>
 
-        <form method='POST'>
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="hidden" name="productID" value="{{ product.productID }}"/>
-            <input type="submit" value="Review Product"/>
-        </form>
-        <form action="/cart/" method="post">
-            {% csrf_token %}
-            <input class="form-control" hidden="true" id="text1" name="text1" type="text"
-                   value="{{ product.productID }}">
-
-            <input class="form-control" hidden="true" id="text2" name="text2" type="text" value="1">
-
-            <button type="submit" class="btn btn-primary m-2" value="AddToCart">Add to
-                Cart
-            </button>
-        </form>
     </div>
 
+    <nav class="navbar ">
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-primary  my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </nav>
+
+    <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item avatar">
+            <a class="nav-link p-0" href="#">
+                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
+                     alt="avatar image" height="35">
+            </a>
+        </li>
+    </ul>
+    </div>
+</nav>
+
+<div class="sidenav mt-5 pt-5  ">
+     {% for sub_Category in allSubcategories %}
+
+            {% for subcategory in sub_Category%}
+                {% if forloop.counter == 1 %}
+                    <a href="#">{{ subcategory }}</a>
+                {% else %}
+                    <li class="ml-5">{{subcategory}}</li>
+                {% endif %}
+            {% endfor %}
+
+     {% endfor %}
+
+
+</div>
+
+<div class="container-fluid">
+
+        <div class="card w-50 ">
+            <img class="w-50 " src="{{ product.productImg.url }}" class="card-img-top" id="product-img" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.productName }}</h5>
+                <p class="card-text">{{ product.productPrice }} $</p>
+                <p class="card-text">{{ product.productDetails }}</p>
+                <a href="#" class="btn btn-primary">Add TO Cart</a>
+            </div>
+        </div>
+
+        <div>
+            <div class="form-group w-25">
+                <form action="/cart/" method="post">
+                    {% csrf_token %}
+{#                    <label for="exampleFormControlTextarea1">Your review matters</label>#}
+                    {{ form.as_p }}
+                    <input class="form-control" hidden="true" id="text1" name="text1" type="text"
+                           value="{{ product.productID }}">
+                    <input type="submit" class="btn btn-primary" value="Review Product"/>
+
+                </form>
+            </div>
+
+           <div class="con mt-3">
+            <i class="fas fa-star" aria-hidden="true" id="s1"></i>
+            <i class="fas fa-star" aria-hidden="true" id="s2"></i>
+            <i class="fas fa-star" aria-hidden="true" id="s3"></i>
+            <i class="fas fa-star" aria-hidden="true" id="s4"></i>
+            <i class="fas fa-star" aria-hidden="true" id="s5"></i>
+
+           </div>
+        </div>
+
+        <div class=" w-25 pt-5 mt-5">
+            {% for review in pastReviews %}
+                <p class="text-break ">{{ review }}</p>
+            {% endfor %}
+
+        </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#s1").click(function () {
+                $(".fa-star").css("color", "black");
+                $("#s1").css("color", "yellow");
+            });
+            $("#s2").click(function () {
+                $(".fa-star").css("color", "black");
+                $("#s1,#s2").css("color", "yellow");
+            });
+            $("#s3").click(function () {
+                $(".fa-star").css("color", "black");
+                $("#s1,#s2,#s3").css("color", "yellow");
+            });
+            $("#s4").click(function () {
+                $(".fa-star").css("color", "black");
+                $("#s1,#s2,#s3,#s4").css("color", "yellow");
+            });
+            $("#s5").click(function () {
+                $(".fa-star").css("color", "black");
+                $(".fa-star").css("color", "yellow");
+            });
+        })
+
+    </script>
+
+</div>
+
+
+<style>
+    .con {
+        height: 60px;
+        width: 330px;
+        position: absolute;
+
+    }
+
+    .fa-star {
+        font-size: 30px;
+    }
+
+
+    .container-fluid {
+        width: 100%;
+        margin-top: 2cm;
+        padding-right: .75rem;
+        padding-left: 6cm;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 200px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+</style>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 {% endblock %}
+</body>
+</html>
