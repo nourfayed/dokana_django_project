@@ -8,7 +8,7 @@
 
                     <div class="card mb-3" style="max-width: 940px;">
                         <div class="row no-gutters">
-                            <div class="col-md-2">
+                            <div class="col-md-2 ml-1">
                                 <img src="{{ c.productID.productImg.url }}"
                                      class="card-img" alt="...">
                             </div>
@@ -19,6 +19,11 @@
                                     <p class="card-text"
                                        style="width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ c.productID.productDetails }}</p>
                                 </div>
+                            </div>
+
+                            <div class="card-footer col-md-12 ml-1 pr-2 row justify-content-end">
+                                <label for="count" class= "col-sm-2 col-form-label col-form-label-sm">Order Count : </label>
+                                <input id="count" class="col-md-2 form-control form-control-sm" type="number">
                             </div>
                         </div>
                     </div>
