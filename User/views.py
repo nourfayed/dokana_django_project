@@ -98,6 +98,24 @@ def user_login(request):
     else:
         return render(request, 'user/login.html')
 
+# logout function
+def logout(request):
+    try:
+        del request.session['id']
+        request.session['logged'] = False
+    except:
+     pass
+    return render(request, 'user/login.html', {})
+
+# deactivate user 
+def delete_profile(request):
+    user = request.user
+    user.is_active = False
+    user.save()
+    messages.success(request, 'Profile successfully disabled.')
+    return render(request, 'user/login.html', {})
+
+
 
 from products.models import Products
 
