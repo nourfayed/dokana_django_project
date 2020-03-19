@@ -115,24 +115,26 @@ from Cart.models import Cart
 
 def delete_profile(request,pk):
     
-    user_cart=Cart.objects.get(userID=pk)
-    user_history=History.objects.get(userID=pk)
+    user_cart=Cart.objects.filter(userID=pk)
+    user_history=History.objects.filter(userID=pk)
     user_address=Address.objects.filter(userID=pk)
     user=User.objects.get(userId=pk)
     if user_cart:
         try:
-            user_cart.deleteUserCart(pk)
-        except :    
+            for cart in user_cart:
+                cart.delete()
+        except :
             print('cartDoesNotExist')
     if user_history:
         try:
-            user_history.deleteUserHistory(pk)
+            for history in user_history:
+                history.delete()
         except:
             print('historyDoesNotExist')
     if user_address:
         try:
             for address in user_address:
-                user_address.deleteAllUserAddresses(pk)
+                address.delete()
         except:
             print('user-addressDoesNotExist')
     if user:
@@ -141,7 +143,7 @@ def delete_profile(request,pk):
         except:
             print('userDoesNotExist')
     # messages.success(request, 'Profile successfully disabled.')
-    return render(request, 'user/login.html')
+    return redirect('/Login')
     # user.save()
      
     
