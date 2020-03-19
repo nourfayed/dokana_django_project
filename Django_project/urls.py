@@ -35,5 +35,7 @@ urlpatterns = [
                   # path('', include('products.urls')),
                   path('', include('Dokana.urls')),
                   path('cart/', include('Cart.urls')),
-                  path('checkout/', cart_views.checkout)
+                  path('checkout/', cart_views.checkout),
+                  path('fav/',include('Cart.urls')),
+                  path('checkFavoute/',cart_views.checkFavoute),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

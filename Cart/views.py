@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
-from Cart.models import Cart, Products, User, History
+from Cart.models import Cart, Products, User, History,Favourite
 
 
 def AddToCart(request):
@@ -50,3 +50,45 @@ def checkout(request):
             if 'del-' + str(cart.productID.productID) in request.POST:
                 cart.delete()
         return redirect("/cart/show/")
+
+# view Favourite fuctions 
+
+def _chk_fav(userId, productId):
+    userFav = Favourite.objects.filter(userID=userId)
+    if userFav:
+        if Favourite.objects.filter(userID=userId, productID=productId):
+            return True
+        else:
+            return False
+    return False
+
+
+def checkFavoute(request):
+    user_Fav = tuple(Favourite.objects.filter(userID=request.session.get('id')))
+    
+    if 'check' in request.POST:
+        for fav in user_Fav:
+             
+            fav.delete()
+            return redirect("/profile/" + str(request.session.get('id')))
+
+    else:
+        for fav in user_Fav:
+            if 'del-' + str(fav.productID.productID) in request.POST:
+                fav.delete()
+        return redirect("/fav/showfav/")
+
+def AddToFavourite(request):
+    product_Id = request.POST.get('text1')
+    user_id = request.POST.get('text2')
+     
+    if not _chk_fav(userId=user_id, productId=product_Id):
+        fav = Favourite(productID=Products.objects.get(productID=product_Id), userID=User.objects.get(userId=user_id))
+        fav.save()
+    test = tuple(Favourite.objects.filter(userID=user_id))
+    return render(request, 'favourite.html', {'favourite': test})
+
+def showFavourite(request):
+    user_id = request.session['id']
+    test = tuple(Favourite.objects.filter(userID=user_id))
+    return render(request, 'favourite.html', {'favourite': test})
