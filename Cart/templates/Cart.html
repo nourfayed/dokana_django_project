@@ -23,13 +23,21 @@
                                     </div>
                                 </div>
 
-                                <div class="card-footer col-md-12 ml-1 pr-2 row justify-content-end">
-                                    <label for="count-{{ c.productID.productID }}"
-                                           class="col-sm-2 col-form-label col-form-label-sm">Order Count : </label>
-                                    <input id="count-{{ c.productID.productID }}"
-                                           name="count-{{ c.productID.productID }}"
-                                           class="col-md-2 form-control form-control-sm" type="number"
-                                           value="{{ c.count }}" min="1">
+                                <div class="card-footer col-md-12 ml-1 pr-2 row">
+                                    <div class="col-md row ">
+                                        <input id="del-{{ c.productID.productID }}"
+                                               name="del-{{ c.productID.productID }}"
+                                               class="col-md-3 justify-content-center form-control form-control-sm btn btn-danger" type="submit"
+                                               value="Remove">
+                                    </div>
+                                    <div class="col-md-5 row justify-content-end" >
+                                        <label for="count-{{ c.productID.productID }}"
+                                               class="col-sm col-form-label col-form-label-sm">Order Count : </label>
+                                        <input id="count-{{ c.productID.productID }}"
+                                               name="count-{{ c.productID.productID }}"
+                                               class="col-sm form-control form-control-sm" type="number"
+                                               value="{{ c.count }}" min="1">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -48,7 +56,8 @@
                             <p class="card-text">Please choose your payment method </p>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-secondary active">
-                                    <input type="radio" name="options" id="option1" autocomplete="off" checked value="c">Cash
+                                    <input type="radio" name="options" id="option1" autocomplete="off" checked
+                                           value="c">Cash
                                 </label>
                                 <label class="btn btn-secondary">
                                     <input type="radio" name="options" id="option2" autocomplete="off" value="v">Visa
