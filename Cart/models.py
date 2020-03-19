@@ -36,8 +36,8 @@ class History(models.Model):
 
             history.save()
 
-    def deleteUserHistory(self, userID):
-        History.objects.get(self.userID == userID).delete()
+    def deleteUserHistory(self, pk):
+        History.objects.get(self.pk == userID).delete()
 
     class Meta:
         unique_together = ('userID', 'productID','date')
@@ -67,3 +67,6 @@ class Cart(models.Model):
 
     class Meta:
         unique_together = ('productID', 'userID')
+# delete user cart functon when the user deactivated
+    def deleteUserCart(self,userID):
+        Cart.objects.get(self.userID == userID).delete()

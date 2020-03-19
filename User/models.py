@@ -76,3 +76,7 @@ class Address(models.Model):
 
     def deleteAddress(self, userID, address):
         Address.objects.get(Q(userID=userID) & Q(address=address)).delete()
+
+# delete addresses for the deactivated user 
+    def deleteAllUserAddresses(self,pk):
+        allAdresses=Address.objects.all().filter(userID=pk).delete()
