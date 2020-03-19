@@ -60,9 +60,13 @@
 
             {% for subcategory in sub_Category%}
                 {% if forloop.counter == 1 %}
-                    <a href="#">{{ subcategory }}</a>
+                    <form  method="post">
+                       {% csrf_token %}
+                        <a href="#">{{ subcategory }}</a>
+
+                    </form>
                 {% else %}
-                    <li class="ml-5">{{subcategory}}</li>
+                     <a class="ml-3" href="#" style="font-size: 10px">{{ subcategory }}</a>
                 {% endif %}
             {% endfor %}
 
@@ -85,12 +89,11 @@
 
         <div>
             <div class="form-group w-25">
-                <form action="/cart/" method="post">
+                <form  method="post">
                     {% csrf_token %}
 {#                    <label for="exampleFormControlTextarea1">Your review matters</label>#}
                     {{ form.as_p }}
-                    <input class="form-control" hidden="true" id="text1" name="text1" type="text"
-                           value="{{ product.productID }}">
+                    <input class="form-control" hidden="true" id="text1" name="productID" type="text" value="{{ product.productID }}">
                     <input type="submit" class="btn btn-primary" value="Review Product"/>
 
                 </form>
@@ -107,6 +110,7 @@
         </div>
 
         <div class=" w-25 pt-5 mt-5">
+            <p> Previous Reviews </p>
             {% for review in pastReviews %}
                 <p class="text-break ">{{ review }}</p>
             {% endfor %}
@@ -187,6 +191,7 @@
     .sidenav a:hover {
         color: #f1f1f1;
     }
+
 
 </style>
 

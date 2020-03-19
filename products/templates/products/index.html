@@ -5,9 +5,9 @@
 
             {% for subcategory in sub_Category%}
                 {% if forloop.counter == 1 %}
-                    <a href="#">{{ subcategory }}</a>
+                    <a href="/products/{{ subcategory }}/category">{{ subcategory }}</a>
                 {% else %}
-                    <li class="ml-5">{{subcategory}}</li>
+                    <a class="ml-3" href="/products/{{ subcategory }}/subcategory" style="font-size: 10px">{{ subcategory }}</a>
                 {% endif %}
             {% endfor %}
 
@@ -30,7 +30,7 @@
                         <div class="col mb-4 ">
                             <div class="card h-100">
                                 <img src="{{ product.productImg.url }}"
-                                     class="card-img-top" alt="...">
+                                     class="card-img-top" alt="..." height="200px" width="50px">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ product.productName }}</h5>
                                     <p class="card-text"> {{ product.productPrice }} $ </p>

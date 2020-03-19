@@ -9,5 +9,5 @@ class ReviewForm(forms.ModelForm):
         fields = ['review']
 
     widgets = {
-        'review': forms.TextInput(attrs={'class': 'form-control' , 'id':'exampleFormControlTextarea1'}),
+        'review': forms.TextInput(attrs={'class': 'form-control', 'id': 'exampleFormControlTextarea1'}),
     }

@@ -1,27 +1,20 @@
-from django.shortcuts import render, redirect
-from .models import Category, Products
 from .forms import ReviewForm
 from User.models import User
 from django.db.models import Q
-from django.shortcuts import render
-from .models import Category, Products, SubCategory,Reviews
+from django.shortcuts import render, redirect
+from .models import Category, Products, SubCategory, Reviews
 
 
 def index(request):
     products = Products()
     categories = Category()
-    sub_categories= SubCategory()
 
     latest_products = products.getAllProducts()
-    availableCategories = categories.getAllCategories()
-    allSubcategories = []
-    for category in availableCategories:
-        filteredSubcategories=[]
-        filteredSubcategories.append(category)
-        filteredSubcategories+=sub_categories.getSubcategoryByCategoryID(category.categoryID)
-        allSubcategories.append(filteredSubcategories)
 
-    data = {'latest_products': latest_products,  'allSubcategories': allSubcategories}
+    availableCategories = categories.getAllCategories()
+    allSubcategories = getSubcategoryForEachCategory(availableCategories)
+
+    data = {'latest_products': latest_products, 'allSubcategories': allSubcategories}
     return render(request, 'products/index.html', data)
 
 
@@ -49,19 +42,41 @@ def showDetails(request):
     availableCategories = categories.getAllCategories()
 
     sub_categories = SubCategory()
-    allSubcategories = []
-
-    for category in availableCategories:
-        filteredSubcategories = []
-        filteredSubcategories.append(category)
-        filteredSubcategories += sub_categories.getSubcategoryByCategoryID(category.categoryID)
-        allSubcategories.append(filteredSubcategories)
+    allSubcategories = getSubcategoryForEachCategory(availableCategories)
 
     reviews = Reviews()
     pastReviews = reviews.getReviewsByProductID(currentProductId)
 
     data = {'product': product, 'form': form, 'allSubcategories': allSubcategories, 'pastReviews': pastReviews}
     return render(request, "products/productDetails.html", data)
+
+
+def showByCategory(request, category_sent, type):
+    products = Products()
+    categories = Category()
+
+    if type == "category":
+        availableProducts = products.getProductsByCategory(category_sent)
+    else:
+        availableProducts = products.getProductsBySubCategory(category_sent)
+
+    availableCategories = categories.getAllCategories()
+    allSubcategories = getSubcategoryForEachCategory(availableCategories)
+
+    data = {'latest_products': availableProducts, 'allSubcategories': allSubcategories}
+
+    return render(request, 'products/index.html', data)
+
+
+def getSubcategoryForEachCategory(availableCategories):
+    sub_categories = SubCategory()
+    allSubcategories = []
+    for category in availableCategories:
+        filteredSubcategories = []
+        filteredSubcategories.append(category)
+        filteredSubcategories += sub_categories.getSubcategoryByCategoryID(category.categoryID)
+        allSubcategories.append(filteredSubcategories)
+    return allSubcategories
 
 
 def search(request):

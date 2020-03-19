@@ -28,6 +28,7 @@ class Category(models.Model):
         categories = Category.objects.all()
         return categories
 
+
 class SubCategory(models.Model):
     objects = models.Manager()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -37,13 +38,14 @@ class SubCategory(models.Model):
         return self.subCatName
 
     def getSubcategoryByCategoryID(self, currentCategoryID):
-        allSubcategories=SubCategory.objects.all()
-        filteredSubCategories=[]
+        allSubcategories = SubCategory.objects.all()
+        filteredSubCategories = []
         for subcategory in allSubcategories:
             if subcategory.category.categoryID == int(currentCategoryID):
                 filteredSubCategories.append(subcategory.subCatName)
 
         return filteredSubCategories
+
 
 class Products(models.Model):
     objects = models.Manager()
@@ -57,18 +59,16 @@ class Products(models.Model):
     productCount = models.IntegerField(default=0)
     productPrice = models.IntegerField(default=0)
 
-
     def deceaseCount(self, current_id):
         product = Products.objects.get(id=current_id)
         product.productCount -= 1
         product.save()
 
-    def getProductsByCategory(self, category_ID):
+    def getProductsByCategory(self, category_name):
         products = Products.objects.all()
         matchedProducts = []
         for product in products:
-            print(product.categoryID.categoryID)
-            if product.categoryID.categoryID == category_ID:
+            if product.categoryID.category.categoryName == category_name:
                 matchedProducts.append(product)
         return matchedProducts
 
@@ -76,9 +76,16 @@ class Products(models.Model):
         products = Products.objects.all()
         return products
 
+    def getProductsBySubCategory(selfself,currentSubcategoryName):
+        products = Products.objects.all()
+        matchedProducts=[]
+        for product in products:
+            if product.categoryID.subCatName == currentSubcategoryName:
+                matchedProducts.append(product)
+        return matchedProducts
+
     def __str__(self):
         return self.productName
-
 
 
 class Reviews(models.Model):
