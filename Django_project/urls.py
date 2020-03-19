@@ -20,6 +20,7 @@ from django.urls import path, include
 from Django_project import settings
 from User import views
 from products import views as products_views
+from Cart import views as cart_views
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -33,5 +34,6 @@ urlpatterns = [
                   path('search/', products_views.search, name="search"),
                   # path('', include('products.urls')),
                   path('', include('Dokana.urls')),
-                  path('cart/', include('Cart.urls'))
+                  path('cart/', include('Cart.urls')),
+                  path('checkout/', cart_views.checkout)
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

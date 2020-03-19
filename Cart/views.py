@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.utils import timezone
 
-from Cart.models import Cart, Products, User
+from Cart.models import Cart, Products, User, History
 
 
 def AddToCart(request):
@@ -30,3 +31,16 @@ def _chk_cart(userId, productId):
         else:
             return False
     return False
+
+
+def checkout(request):
+    user_carts = tuple(Cart.objects.filter(userID=request.session.get('id')))
+    print(request.POST)
+    for cart in user_carts:
+        count = request.POST.get('count-' + str(cart.productID.productID))
+        pay = request.POST.get('options')
+        History(userID=cart.userID, productID=cart.productID, count=count, date=timezone.now(),
+                paymentMethod=pay).save()
+        cart.delete()
+
+    return redirect("/profile/"+str(request.session.get('id'))+"/history")
