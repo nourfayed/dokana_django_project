@@ -159,6 +159,8 @@ def delete_profile(request,pk):
     if user:
         try:
             user.deleteUser(pk)
+            del request.session['logged']
+            del request.session['id']
         except:
             print('userDoesNotExist')
     # messages.success(request, 'Profile successfully disabled.')
