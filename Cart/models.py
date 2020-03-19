@@ -70,3 +70,28 @@ class Cart(models.Model):
 # delete user cart functon when the user deactivated
     def deleteUserCart(self,userID):
         Cart.objects.get(self.userID == userID).delete()
+
+class Favourite(models.Model):
+    productID = models.ForeignKey(to=Products, on_delete=models.CASCADE)
+    userID = models.ForeignKey(to=User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.productID)
+
+    def removeFromFavourite(self, productID):
+        Favourite.objects.get(self.productID == productID).delete()
+
+    def addProductToFavourite(self,productID, userID):
+        self.productID = productID
+        self.userID = userID
+
+        Favourite.save()
+
+    def getUserFavourite(self, userID):
+        return Favourite.objects.get(self.userID == userID)
+
+    class Meta:
+        unique_together = ('productID', 'userID')
+
+    def deleteUserFavourite(self,userID):
+        Cart.objects.get(self.userID == userID).delete()
