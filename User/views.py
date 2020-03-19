@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, authenticate
+# from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+# from django.contrib.auth import login, authenticate
 # Create your views here.
 from Cart.models import History
 from User.forms import ChangePasswordForm, ImageForm
@@ -120,6 +120,54 @@ def delete_profile(request, pk):
     # messages.success(request, 'Profile successfully disabled.')
     return render(request, 'user/login.html', {})
 
+# logout function
+def logout(request,pk):
+    try:
+        del request.session['id']
+        request.session['logged'] = False
+    except:
+     pass
+    return redirect('/home/')
+
+# deactivate user 
+from Cart.models import Cart
+
+def delete_profile(request,pk):
+    
+    user_cart=Cart.objects.filter(userID=pk)
+    user_history=History.objects.filter(userID=pk)
+    user_address=Address.objects.filter(userID=pk)
+    user=User.objects.get(userId=pk)
+    if user_cart:
+        try:
+            for cart in user_cart:
+                cart.delete()
+        except :
+            print('cartDoesNotExist')
+    if user_history:
+        try:
+            for history in user_history:
+                history.delete()
+        except:
+            print('historyDoesNotExist')
+    if user_address:
+        try:
+            for address in user_address:
+                address.delete()
+        except:
+            print('user-addressDoesNotExist')
+    if user:
+        try:
+            user.deleteUser(pk)
+            del request.session['logged']
+            del request.session['id']
+        except:
+            print('userDoesNotExist')
+    # messages.success(request, 'Profile successfully disabled.')
+    return redirect('/Login')
+    # user.save()
+     
+    
 
 def profile(request, pk):
     user_profile = User.objects.get(userId=pk)
