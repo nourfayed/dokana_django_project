@@ -36,11 +36,17 @@ def _chk_cart(userId, productId):
 def checkout(request):
     user_carts = tuple(Cart.objects.filter(userID=request.session.get('id')))
     print(request.POST)
-    for cart in user_carts:
-        count = request.POST.get('count-' + str(cart.productID.productID))
-        pay = request.POST.get('options')
-        History(userID=cart.userID, productID=cart.productID, count=count, date=timezone.now(),
-                paymentMethod=pay).save()
-        cart.delete()
+    if 'check' in request.POST:
+        for cart in user_carts:
+            count = request.POST.get('count-' + str(cart.productID.productID))
+            pay = request.POST.get('options')
+            History(userID=cart.userID, productID=cart.productID, count=count, date=timezone.now(),
+                    paymentMethod=pay).save()
+            cart.delete()
+            return redirect("/profile/" + str(request.session.get('id')) + "/history")
 
-    return redirect("/profile/"+str(request.session.get('id'))+"/history")
+    else:
+        for cart in user_carts:
+            if 'del-' + str(cart.productID.productID) in request.POST:
+                cart.delete()
+        return redirect("/cart/show/")
