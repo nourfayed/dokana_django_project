@@ -44,7 +44,7 @@ class History(models.Model):
 
 
 class Cart(models.Model):
-    paymentMethod = models.CharField(choices=PAYMENT_TYPES, max_length=50)
+    count = models.IntegerField(default=1)
     productID = models.ForeignKey(to=Products, on_delete=models.CASCADE)
     userID = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
