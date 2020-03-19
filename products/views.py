@@ -54,14 +54,13 @@ def search(request):
     min_rate = request.POST.get('min_rate', '')
     max_rate = request.POST.get('max_rate', '')
 
-    sub_cats = SubCategory.objects.all();
+    sub_cats = SubCategory.objects.all()
     sub_cats = tuple(sub_cats)
     sub_cats_name = []
     for sub in sub_cats:
         sub_cats_name.append(sub.subCatName)
     sub_cats_name = tuple(sub_cats_name)
     print(sub_cats_name[0])
-    print(category)
     if category not in sub_cats_name:
         category = 'All'
     if searchBy == '':
@@ -81,7 +80,8 @@ def search(request):
         'min_p': min_price,
         'max_p': max_price,
         "min_r": min_rate,
-        'max_r': max_rate
+        'max_r': max_rate,
+        'searchBy': searchBy
     }
 
     categories = Category.objects.all()
@@ -107,16 +107,26 @@ def search(request):
         # # print(subCat)
 
     if searchBy == 'product':
-        products = Products.objects.filter(Q(productName__contains=productName))
+        if category == 'All':
+            products = Products.objects.filter(Q(productName__contains=productName))
+        else:
+            cat_id = SubCategory.objects.get(subCatName=category)
+            products = Products.objects.filter(Q(productName__contains=productName) & Q(categoryID=cat_id))
+
     elif searchBy == 'model':
-        products = Products.objects.filter(Q(productModel__contains=productName))
+        if category == 'All':
+            products = Products.objects.filter(Q(productModel__contains=productName))
+        else:
+            cat_id = SubCategory.objects.get(subCatName=category)
+            products = Products.objects.filter(Q(productModel__contains=productName) & Q(categoryID=cat_id))
+
     else:
         if category == 'All':
             products = Products.objects.all()
         else:
             cat_id = SubCategory.objects.get(subCatName=category)
             # products = Products.objects.filter(Q(productName__contains=productName) and Q(category=cat_id))
-            products = Products.objects.filter(Q(productName__contains=productName) & Q(categoryID=cat_id))
+            products = Products.objects.filter(Q(categoryID=cat_id))
 
     if products:
         products = filter(lambda x: price__less_than(max_price, x), products)
@@ -127,7 +137,7 @@ def search(request):
         # products = list(products)
     else:
         print('Nothing')
-
+    print(search_filter)
     return render(request, 'products/search_result.html',
                   {'filter': search_filter, 'cats': final_cat, 'products': products})
 
