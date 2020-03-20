@@ -111,7 +111,7 @@ class Reviews(models.Model):
         matchedReviews = []
         for review in allReviews:
             if review.productID.productID == int(currentProductID):
-                matchedReviews.append(review.review)
+                matchedReviews.append(review.userID.userName+" : "+review.review)
 
         return matchedReviews
 
