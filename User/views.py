@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 # from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 # from django.contrib.auth import login, authenticate
 # Create your views here.
-from Cart.models import History
+from Cart.models import History, Cart
 from User.forms import ChangePasswordForm, ImageForm
 from User.models import User, Address
 from products.models import Products
@@ -113,36 +113,17 @@ def logout(request, pk):
 
 
 # deactivate user
+
 def delete_profile(request, pk):
-    user = request.user
-    user.is_active = False
-    user.save()
-    # messages.success(request, 'Profile successfully disabled.')
-    return render(request, 'user/login.html', {})
-
-# logout function
-def logout(request,pk):
-    try:
-        del request.session['id']
-        request.session['logged'] = False
-    except:
-     pass
-    return redirect('/home/')
-
-# deactivate user 
-from Cart.models import Cart
-
-def delete_profile(request,pk):
-    
-    user_cart=Cart.objects.filter(userID=pk)
-    user_history=History.objects.filter(userID=pk)
-    user_address=Address.objects.filter(userID=pk)
-    user=User.objects.get(userId=pk)
+    user_cart = Cart.objects.filter(userID=pk)
+    user_history = History.objects.filter(userID=pk)
+    user_address = Address.objects.filter(userID=pk)
+    user = User.objects.get(userId=pk)
     if user_cart:
         try:
             for cart in user_cart:
                 cart.delete()
-        except :
+        except:
             print('cartDoesNotExist')
     if user_history:
         try:
@@ -166,13 +147,39 @@ def delete_profile(request,pk):
     # messages.success(request, 'Profile successfully disabled.')
     return redirect('/Login')
     # user.save()
-     
-    
+
 
 def profile(request, pk):
     user_profile = User.objects.get(userId=pk)
     addresses = Address.objects.filter(userID=pk)
-    imageForm = ImageForm()
+
+    req = request.POST
+    if req:
+        print(req)
+        user = User.objects.get(userId=pk)
+        home = Address.objects.filter(userID=user, address=req.get('home'))
+        work = Address.objects.filter(userID=user, address=req.get('work'))
+        if not home or not work:
+            for address in Address.objects.filter(userID=user):
+                address.delete()
+            Address(userID=user, address=req.get('home')).save()
+            Address(userID=user, address=req.get('work')).save()
+
+        # if request.method == 'POST' and request.FILES['profile_photo']:
+        #     print("ssss" + str(request.FILES['profile_photo']))
+        #
+        #     # user.userImage = req.get('profile_photo')
+        # else:
+        #     user.userImage = user_profile.userImage
+
+        user.userName = req.get('fullname')
+        user.email = req.get('mail')
+        user.phone = req.get('phone')
+        user.save()
+
+        addresses = Address.objects.filter(userID=pk)
+
+    user_profile = User.objects.get(userId=pk)
     if not addresses:
         return render(request, 'user/profile.html',
                       {'profile': user_profile, 'img_form': ImageForm})

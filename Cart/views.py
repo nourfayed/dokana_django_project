@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 
 from Cart.models import Cart, Products, User, History, Favourite
+from User.models import Address
 
 
 def AddToCart(request):
@@ -14,13 +15,26 @@ def AddToCart(request):
         cart = Cart(productID=Products.objects.get(productID=product_Id), userID=User.objects.get(userId=user_id))
         cart.save()
     test = tuple(Cart.objects.filter(userID=user_id))
-    return render(request, 'Cart.html', {'Cart': test})
+    address = False
+    hasCart = False
+    if Address.objects.filter(userID=User.objects.get(userId=user_id)):
+        address = True
+    if test:
+        hasCart = True
+    return render(request, 'Cart.html', {'Cart': test, 'address': address, 'hasCart': hasCart})
 
 
 def showCart(request):
     user_id = request.session['id']
     test = tuple(Cart.objects.filter(userID=user_id))
-    return render(request, 'Cart.html', {'Cart': test})
+    address = False
+    hasCart = False
+    if Address.objects.filter(userID=User.objects.get(userId=user_id)):
+        address = True
+    if test:
+        hasCart = True
+    print(hasCart)
+    return render(request, 'Cart.html', {'Cart': test, 'address': address, 'hasCart': hasCart})
 
 
 def _chk_cart(userId, productId):
