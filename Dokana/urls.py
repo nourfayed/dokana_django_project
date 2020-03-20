@@ -23,5 +23,6 @@ from Django_project import settings
 urlpatterns = [
                   path('', HomePageView.as_view(), name='home'),
                   path('te/', TestPageView.as_view(), name='te'),
-                  path('home/',redirectToProducts)
+                  path('home/',redirectToProducts),
+                  path('main/',HomePageView.as_view(), name='home')
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
