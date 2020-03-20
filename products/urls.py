@@ -7,5 +7,6 @@ urlpatterns = [
     path('productDetails/', views.showDetails),
     path('search/', views.search, name="search"),
     path('cart/', include('Cart.urls')),
-    path('<str:category_sent>/<str:type>/', views.showByCategory)
+    path('categoryChoice/<str:category_sent>/<str:type>/', views.showByCategory),
+    path('updateAverageRate/', views.updateAverageRate),
 ]

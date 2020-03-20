@@ -10,9 +10,10 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <title>Dokana..</title>
+    {% block headProductDetails %} {% endblock %}
 </head>
-<body>
 
+<body>
 
 <nav class="navbar fixed-top navbar-expand-lg p-2 mb-2 bg-dark text-white">
     <a class="navbar-brand">
@@ -25,7 +26,9 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link active" href="/home/">Home</a>
             <a class="nav-item nav-link" href="#">Features</a>
-            <a class="nav-item nav-link" href="#">Pricing</a>
+            {% if request.session.logged == True %}
+                <a class="nav-item nav-link" href="/cart/show/">My Cart</a>
+            {% endif %}
 
         </div>
 
@@ -42,198 +45,154 @@
         </form>
     </nav>
 
-        <ul class="navbar-nav ml-auto nav-flex-icons">
-      <li class="nav-item avatar">
-        {% if request.session.logged == True %}
-        <a class="nav-link p-0" href="/profile/{{ request.session.id }}">
-          <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
-            alt="avatar image" height="35">
-        </a>
-        {% else %}
-        <a class="nav-link p-0" href="/Login">
-          Login
-          <!-- <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
-            alt="avatar image" height="35"> -->
-        </a>
-        {% endif %}
-      </li>
+    <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item avatar">
+            {% if request.session.logged == True %}
+                <a class="nav-link p-0" href="/profile/{{ request.session.id }}">
+                    <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
+                         alt="avatar image" height="35">
+                </a>
+            {% else %}
+                <a class="nav-link p-0" href="/Login">
+                    Login
+                    <!-- <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
+                      alt="avatar image" height="35"> -->
+                </a>
+            {% endif %}
+        </li>
     </ul>
     </div>
 </nav>
 
 {% block content %}{% endblock %}
-{##}
-{#<div class="row row-cols-1 row-cols-md-3 pt-5 mt-5">#}
-{#  <div class="col mb-4">#}
-{#    <div class="card h-100">#}
-{#      <img src="https://assets.mspimages.in/wp-content/uploads/2019/03/Redmi-7-2-696x435.jpg" class="card-img-top" alt="...">#}
-{#      <div class="card-body">#}
-{#        <h5 class="card-title">Card title</h5>#}
-{#        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>#}
-{#      </div>#}
-{#    </div>#}
-{#  </div>#}
-{#  <div class="col mb-4">#}
-{#    <div class="card h-100">#}
-{#      <img src="https://5.imimg.com/data5/JV/YU/MY-3760642/lenovo-y720-80vr00esin-gaming-notebooks-500x500.png" class="card-img-top" alt="...">#}
-{#      <div class="card-body">#}
-{#        <h5 class="card-title">Card title</h5>#}
-{#        <p class="card-text">This is a short card.</p>#}
-{#      </div>#}
-{#    </div>#}
-{#  </div>#}
-{#  <div class="col mb-4">#}
-{#    <div class="card h-100">#}
-{#      <img src="https://smhttp-ssl-73217.nexcesscdn.net/pub/media/catalog/product/cache/image/beff4985b56e3afdbeabfc89641a4582/t/v/tv506--1.gif" class="card-img-top" alt="...">#}
-{#      <div class="card-body">#}
-{#        <h5 class="card-title">Card title</h5>#}
-{#        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>#}
-{#      </div>#}
-{#    </div>#}
-{#  </div>#}
-{#  <div class="col mb-4">#}
-{#    <div class="card h-100">#}
-{#      <img src="https://www.scandinaviastandard.com/wp-content/uploads/2019/10/The-Ultimate-Guide-to-Sustainably-Caring-For-Your-Clothes-_-Scandinavia-Standard-2-624x390.jpg" class="card-img-top" alt="...">#}
-{#      <div class="card-body">#}
-{#        <h5 class="card-title">Card title</h5>#}
-{#        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>#}
-{#      </div>#}
-{#    </div>#}
-{#  </div>#}
-{#</div>#}
-
-
-
 
 <!-- Footer -->
 <footer class="page-footer font-small indigo bg-dark">
 
-  <!-- Footer Links -->
-  <div class="container text-center text-md-left">
+    <!-- Footer Links -->
+    <div class="container text-center text-md-left">
 
-    <!-- Grid row -->
-    <div class="row">
+        <!-- Grid row -->
+        <div class="row">
 
-      <!-- Grid column -->
-      <div class="col-md-3 mx-auto">
+            <!-- Grid column -->
+            <div class="col-md-3 mx-auto">
 
-        <!-- Links -->
-        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
 
-        <ul class="list-unstyled">
-          <li>
-            <a href="#!">Very long link 1</a>
-          </li>
-          <li>
-            <a href="#!">Very long link 2</a>
-          </li>
-          <li>
-            <a href="#!">Very long link 3</a>
-          </li>
-          <li>
-            <a href="#!">Very long link 4</a>
-          </li>
-        </ul>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#!">Very long link 1</a>
+                    </li>
+                    <li>
+                        <a href="#!">Very long link 2</a>
+                    </li>
+                    <li>
+                        <a href="#!">Very long link 3</a>
+                    </li>
+                    <li>
+                        <a href="#!">Very long link 4</a>
+                    </li>
+                </ul>
 
-      </div>
-      <!-- Grid column -->
+            </div>
+            <!-- Grid column -->
 
-      <hr class="clearfix w-100 d-md-none">
+            <hr class="clearfix w-100 d-md-none">
 
-      <!-- Grid column -->
-      <div class="col-md-3 mx-auto">
+            <!-- Grid column -->
+            <div class="col-md-3 mx-auto">
 
-        <!-- Links -->
-        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
 
-        <ul class="list-unstyled">
-          <li>
-            <a href="#!">Link 1</a>
-          </li>
-          <li>
-            <a href="#!">Link 2</a>
-          </li>
-          <li>
-            <a href="#!">Link 3</a>
-          </li>
-          <li>
-            <a href="#!">Link 4</a>
-          </li>
-        </ul>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#!">Link 1</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 2</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 3</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 4</a>
+                    </li>
+                </ul>
 
-      </div>
-      <!-- Grid column -->
+            </div>
+            <!-- Grid column -->
 
-      <hr class="clearfix w-100 d-md-none">
+            <hr class="clearfix w-100 d-md-none">
 
-      <!-- Grid column -->
-      <div class="col-md-3 mx-auto">
+            <!-- Grid column -->
+            <div class="col-md-3 mx-auto">
 
-        <!-- Links -->
-        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
 
-        <ul class="list-unstyled">
-          <li>
-            <a href="#!">Link 1</a>
-          </li>
-          <li>
-            <a href="#!">Link 2</a>
-          </li>
-          <li>
-            <a href="#!">Link 3</a>
-          </li>
-          <li>
-            <a href="#!">Link 4</a>
-          </li>
-        </ul>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#!">Link 1</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 2</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 3</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 4</a>
+                    </li>
+                </ul>
 
-      </div>
-      <!-- Grid column -->
+            </div>
+            <!-- Grid column -->
 
-      <hr class="clearfix w-100 d-md-none">
+            <hr class="clearfix w-100 d-md-none">
 
-      <!-- Grid column -->
-      <div class="col-md-3 mx-auto">
+            <!-- Grid column -->
+            <div class="col-md-3 mx-auto">
 
-        <!-- Links -->
-        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
 
-        <ul class="list-unstyled">
-          <li>
-            <a href="#!">Link 1</a>
-          </li>
-          <li>
-            <a href="#!">Link 2</a>
-          </li>
-          <li>
-            <a href="#!">Link 3</a>
-          </li>
-          <li>
-            <a href="#!">Link 4</a>
-          </li>
-        </ul>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#!">Link 1</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 2</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 3</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 4</a>
+                    </li>
+                </ul>
 
-      </div>
-      <!-- Grid column -->
+            </div>
+            <!-- Grid column -->
+
+        </div>
+        <!-- Grid row -->
 
     </div>
-    <!-- Grid row -->
+    <!-- Footer Links -->
 
-  </div>
-  <!-- Footer Links -->
-
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2020 Copyright:
-    <a href="https://google.com/"> JankovicDesgins.com</a>
-  </div>
-  <!-- Copyright -->
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <a href="https://google.com/"> JankovicDesgins.com</a>
+    </div>
+    <!-- Copyright -->
 
 </footer>
 <style>
 
     footer {
-
-
         padding: 20px;
         position: relative;
         bottom: 0;
@@ -241,11 +200,8 @@
     }
 
     {% block style %}{% endblock %}
-    </style>
+</style>
 <!-- Footer -->
-
-
-
 
 
 {% block myJavascript %}{% endblock %}

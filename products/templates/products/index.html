@@ -5,9 +5,9 @@
 
             {% for subcategory in sub_Category%}
                 {% if forloop.counter == 1 %}
-                    <a href="/products/{{ subcategory }}/category">{{ subcategory }}</a>
+                    <a href="/products/categoryChoice/{{ subcategory }}/category">{{ subcategory }}</a>
                 {% else %}
-                    <a class="ml-3" href="/products/{{ subcategory }}/subcategory" style="font-size: 10px">{{ subcategory }}</a>
+                    <a class="ml-3" href="/products/categoryChoice/{{ subcategory }}/subcategory" style="font-size: 10px">{{ subcategory }}</a>
                 {% endif %}
             {% endfor %}
 

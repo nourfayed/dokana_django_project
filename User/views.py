@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, authenticate
+# from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+# from django.contrib.auth import login, authenticate
 # Create your views here.
 from Cart.models import History
 from User.forms import ChangePasswordForm, ImageForm
 from User.models import User, Address
+from products.models import Products
 from .forms import RegisterForm, ImageUploadForm
 import logging
 
@@ -64,7 +65,9 @@ def user_register(request):
 
 
 # login authentication
-user_status=False # flag check if the user logged in ?
+user_status = False  # flag check if the user logged in ?
+
+
 def user_login(request):
     if request.method == 'POST':
 
@@ -74,41 +77,109 @@ def user_login(request):
         password = request.POST.get('password')
         # Check username and password combination if correct
         try:
-            user=User.objects.get(userName=username)
+            user = User.objects.get(userName=username)
         except:
             return render(request, 'user/login.html', {'error_message': 'Incorrect username and / or password.'})
-        
+
         if user is not None:
             # Save session as cookie to login the user
-             
+
             if user.password == password:
                 # login(request, user)
-            # Success, now let's login the user.
-                user_status=True
+                # Success, now let's login the user.
+                user_status = True
                 request.session['logged'] = True
                 request.session['id'] = user.userId
-                return redirect('/profile/'+user.userId.__str__())
+                return redirect('/profile/' + user.userId.__str__())
             else:
-            #   throw an error to the screen.
+                #   throw an error to the screen.
                 return render(request, 'user/login.html', {'error_message': 'Incorrect username and / or password.'})
         else:
             #   throw an error to the screen.
             return render(request, 'user/login.html', {'error_message': 'Incorrect username and / or password.'})
-            
+
     else:
         return render(request, 'user/login.html')
 
 
-from products.models import Products
+# logout function
+def logout(request, pk):
+    try:
+        del request.session['id']
+        request.session['logged'] = False
+    except:
+        pass
+    return redirect('/home/')
 
+
+# deactivate user
+def delete_profile(request, pk):
+    user = request.user
+    user.is_active = False
+    user.save()
+    # messages.success(request, 'Profile successfully disabled.')
+    return render(request, 'user/login.html', {})
+
+# logout function
+def logout(request,pk):
+    try:
+        del request.session['id']
+        request.session['logged'] = False
+    except:
+     pass
+    return redirect('/home/')
+
+# deactivate user 
+from Cart.models import Cart
+
+def delete_profile(request,pk):
+    
+    user_cart=Cart.objects.filter(userID=pk)
+    user_history=History.objects.filter(userID=pk)
+    user_address=Address.objects.filter(userID=pk)
+    user=User.objects.get(userId=pk)
+    if user_cart:
+        try:
+            for cart in user_cart:
+                cart.delete()
+        except :
+            print('cartDoesNotExist')
+    if user_history:
+        try:
+            for history in user_history:
+                history.delete()
+        except:
+            print('historyDoesNotExist')
+    if user_address:
+        try:
+            for address in user_address:
+                address.delete()
+        except:
+            print('user-addressDoesNotExist')
+    if user:
+        try:
+            user.deleteUser(pk)
+            del request.session['logged']
+            del request.session['id']
+        except:
+            print('userDoesNotExist')
+    # messages.success(request, 'Profile successfully disabled.')
+    return redirect('/Login')
+    # user.save()
+     
+    
 
 def profile(request, pk):
     user_profile = User.objects.get(userId=pk)
     addresses = Address.objects.filter(userID=pk)
     imageForm = ImageForm()
+    if not addresses:
+        return render(request, 'user/profile.html',
+                      {'profile': user_profile, 'img_form': ImageForm})
 
     return render(request, 'user/profile.html',
-                  {'profile': user_profile, 'img_form': ImageForm, 'address1': addresses[0].address, 'address2': addresses[1].address})
+                  {'profile': user_profile, 'img_form': ImageForm, 'address1': addresses[0].address,
+                   'address2': addresses[1].address})
 
 
 def history(request, pk):

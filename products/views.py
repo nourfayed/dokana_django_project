@@ -1,7 +1,7 @@
 from .forms import ReviewForm
 from User.models import User
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from .models import Category, Products, SubCategory, Reviews
 
 
@@ -20,34 +20,31 @@ def index(request):
 
 def showDetails(request):
     currentProductId = request.POST.get('productID', '')
-    print("Current product id from show details................................")
-    print(currentProductId)
+
     product = Products.objects.get(productID=currentProductId)
 
-    form = ReviewForm(request.POST)
-    if form.is_valid():
-        review = form.save(commit=False)
+    formReview = ReviewForm(request.POST)
+    if formReview.is_valid():
+        review = formReview.save(commit=False)
         review.productID = product
-        user = User()
-        user.userId = 1
-        user.userName = "7amada"
-        user.email = "fgklhkk@gmail.com"
-        user.password = "12435465rydf"
-        user.phone = 1234546
-        user.save()
+
+        userid = request.session["id"]
+        user = User.objects.get(userId=userid)
+
         review.userID = user
         review.save()
 
     categories = Category()
     availableCategories = categories.getAllCategories()
 
-    sub_categories = SubCategory()
     allSubcategories = getSubcategoryForEachCategory(availableCategories)
 
     reviews = Reviews()
     pastReviews = reviews.getReviewsByProductID(currentProductId)
 
-    data = {'product': product, 'form': form, 'allSubcategories': allSubcategories, 'pastReviews': pastReviews}
+    data = {'product': product, 'formReview': formReview, 'allSubcategories': allSubcategories,
+            'pastReviews': pastReviews}
+
     return render(request, "products/productDetails.html", data)
 
 
@@ -77,6 +74,50 @@ def getSubcategoryForEachCategory(availableCategories):
         filteredSubcategories += sub_categories.getSubcategoryByCategoryID(category.categoryID)
         allSubcategories.append(filteredSubcategories)
     return allSubcategories
+
+
+def updateAverageRate(request):
+    currentProductID = request.POST.get("productID", '')
+    product = Products.objects.get(productID=currentProductID)
+    print("ana f updateAverageRate ")
+    print(currentProductID)
+
+    categories = Category()
+    availableCategories = categories.getAllCategories()
+    allSubcategories = getSubcategoryForEachCategory(availableCategories)
+
+    reviews = Reviews()
+
+
+    formReview = ReviewForm(request.POST)
+    if formReview.is_valid():
+        review = formReview.save(commit=False)
+        review.productID = product
+        userid = request.session["id"]
+        user = User.objects.get(userId=userid)
+        review.userID = user
+        review.save()
+
+    pastReviews = reviews.getReviewsByProductID(currentProductID)
+
+    star = request.POST.get("starNumber")
+    if star is None: star = 0
+
+    star = int(star)
+    if star > 0:
+        avgRating = int(product.productAverageRating)
+        if avgRating == 0:
+            product.productAverageRating = int(star)
+        else:
+            avgRating += int(star)
+            avgRating /= 2
+            product.productAverageRating = avgRating
+
+        product.save()
+
+    data = {'product': product, 'formReview': formReview, 'allSubcategories': allSubcategories,
+            'pastReviews': pastReviews}
+    return render(request, "products/productDetails.html", data)
 
 
 def search(request):
