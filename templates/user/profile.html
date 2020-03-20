@@ -1,9 +1,9 @@
 {% extends "BaseLine.html" %}
 {% block content %}
-    <form method="post" action="">
+    <form method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
 
         <div class="conatainer row m-5 p-5">
-            {% csrf_token %}
             <div class="col-md-3 align-items-center">
                 <img src="{{ profile.userImage.url }}" class="rounded-circle col-10 m-3" alt="{{ profile.userImage }}">
                 <div class="col-12">
@@ -12,41 +12,41 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="FullName">User Name</label>
+                    <label class="col-md-4 control-label" for="fullname">User Name</label>
                     <div class="col-md-8">
-                        <input id="FullName" name="FullName" type="text" placeholder="User Name"
+                        <input id="fullname_id" name="fullname" type="text" placeholder="User Name"
                                class="form-control input-md"
                                required="" value="{{ profile.userName }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="FullName">E-mail</label>
+                    <label class="col-md-4 control-label" for="mail_id">E-mail</label>
                     <div class="col-md-8">
-                        <input id="FullName" name="FullName" type="text" placeholder="User Name"
+                        <input id="mail_id" name="mail" type="text" placeholder="User Name"
                                class="form-control input-md"
                                required="" value="{{ profile.email }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="FullName">Phone number</label>
+                    <label class="col-md-4 control-label" for="phone_id">Phone number</label>
                     <div class="col-md-8">
-                        <input id="FullName" name="FullName" type="number" maxlength="11" minlength="11"
+                        <input id="phone_id" name="phone" type="number" maxlength="11" minlength="11"
                                placeholder="User Name" class="form-control input-md"
                                required="" value="{{ profile.phone }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="FullName">Home address</label>
+                    <label class="col-md-4 control-label" for="home_id">Home address</label>
                     <div class="col-md-8">
-                        <input id="FullName" name="FullName" type="text" placeholder="Enter Home Address"
+                        <input id="home_id" name="home" type="text" placeholder="Enter Home Address"
                                class="form-control input-md"
                                required="" value="{{ address1 }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="FullName">Work address</label>
+                    <label class="col-md-4 control-label" for="work_id">Work address</label>
                     <div class="col-md-8">
-                        <input id="FullName" name="FullName" type="text" placeholder="Enter Work Address"
+                        <input id="work_id" name="work" type="text" placeholder="Enter Work Address"
                                class="form-control input-md"
                                required="" value="{{ address2 }}">
                     </div>
