@@ -124,6 +124,20 @@
                         </div>
                     </div>
                     <div class=" float-right">
+                        <form action="/cart/fav/" method="post">
+                            {% csrf_token %}
+                            <input class="form-control" hidden="true" id="text1" name="text1" type="text"
+                                   value="{{ p.productID }}">
+
+                            <input class="form-control" hidden="true" id="text2" name="text2" type="text" value="{{ request.session.id }}">
+
+
+                            <button type="submit" class="btn btn-secondary float-right mb-2" value="AddToFavourite">Add to
+                                Favourite
+                            </button>
+                        </form>
+                    </div>
+                    <div class=" float-right">
                         <form action="/cart/" method="post">
                             {% csrf_token %}
                             <input class="form-control" hidden="true" id="text1" name="text1" type="text"
@@ -135,20 +149,6 @@
                                 Cart
                             </button>
                              
-                        </form>
-                    </div>
-                    <div class=" float-right">
-                        <form action="/fav/" method="post">
-                            {% csrf_token %}
-                            <input class="form-control" hidden="true" id="text1" name="text1" type="text"
-                                   value="{{ p.productID }}">
-
-                            <input class="form-control" hidden="true" id="text2" name="text2" type="text" value="{{ request.session.id }}">
-
-                            
-                            <button type="submit" class="btn btn-primary float-right mb-2" value="AddToFavourite">Add to
-                                Favourite
-                            </button>
                         </form>
                     </div>
                 </div>
