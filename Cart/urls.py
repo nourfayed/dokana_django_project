@@ -8,5 +8,8 @@ urlpatterns = [
     path('show/', views.showCart, name="Show cart"),
     path('checkout/', views.checkout, name="Show cart"),
 
+    path('', views.AddToFavourite, name="cart"),
+    path('showfav/', views.showFavourite, name="Show cart"),
+    path('checkFavoute/', views.checkFavoute, name="Show cart"),
     # path('',views.GetCart,name = "get")
 ]

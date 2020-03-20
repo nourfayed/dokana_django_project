@@ -1,67 +1,146 @@
-from django.shortcuts import render, redirect
-from .models import Category, Products
 from .forms import ReviewForm
 from User.models import User
 from django.db.models import Q
-from django.shortcuts import render
-from .models import Category, Products, SubCategory
+from django.shortcuts import render, redirect, HttpResponse
+from .models import Category, Products, SubCategory, Reviews
 
 
-# Create your views here.
 def index(request):
     products = Products()
-    latest_products = products.getAllProducts()
-    data = {'latest_products': latest_products}
-    return render(request, 'products/index.html', data)
+    categories = Category()
 
-    latest_products = Products.objects.get(pk=1)
-    print("w eh kaman")
-    print(latest_products)
-    Data = {'latest_products': latest_products}
-    return render(request, 'products/index.html', Data)
+    latest_products = products.getAllProducts()
+
+    availableCategories = categories.getAllCategories()
+    allSubcategories = getSubcategoryForEachCategory(availableCategories)
+
+    data = {'latest_products': latest_products, 'allSubcategories': allSubcategories}
+    return render(request, 'products/index.html', data)
 
 
 def showDetails(request):
     currentProductId = request.POST.get('productID', '')
-    print("Current product id from show details................................")
-    print(currentProductId)
+
     product = Products.objects.get(productID=currentProductId)
 
-    form = ReviewForm(request.POST)
-    if form.is_valid():
-        review = form.save(commit=False)
+    formReview = ReviewForm(request.POST)
+    if formReview.is_valid():
+        review = formReview.save(commit=False)
         review.productID = product
-        user = User()
-        user.userId = 1
-        user.userName = "7amada"
-        user.email = "fgklhkk@gmail.com"
-        user.password = "12435465rydf"
-        user.phone = 1234546
-        user.save()
+
+        userid = request.session["id"]
+        user = User.objects.get(userId=userid)
+
         review.userID = user
         review.save()
-    data = {'product': product, 'form': form}
+
+    categories = Category()
+    availableCategories = categories.getAllCategories()
+
+    allSubcategories = getSubcategoryForEachCategory(availableCategories)
+
+    reviews = Reviews()
+    pastReviews = reviews.getReviewsByProductID(currentProductId)
+
+    data = {'product': product, 'formReview': formReview, 'allSubcategories': allSubcategories,
+            'pastReviews': pastReviews}
+
+    return render(request, "products/productDetails.html", data)
+
+
+def showByCategory(request, category_sent, type):
+    products = Products()
+    categories = Category()
+
+    if type == "category":
+        availableProducts = products.getProductsByCategory(category_sent)
+    else:
+        availableProducts = products.getProductsBySubCategory(category_sent)
+
+    availableCategories = categories.getAllCategories()
+    allSubcategories = getSubcategoryForEachCategory(availableCategories)
+
+    data = {'latest_products': availableProducts, 'allSubcategories': allSubcategories}
+
+    return render(request, 'products/index.html', data)
+
+
+def getSubcategoryForEachCategory(availableCategories):
+    sub_categories = SubCategory()
+    allSubcategories = []
+    for category in availableCategories:
+        filteredSubcategories = []
+        filteredSubcategories.append(category)
+        filteredSubcategories += sub_categories.getSubcategoryByCategoryID(category.categoryID)
+        allSubcategories.append(filteredSubcategories)
+    return allSubcategories
+
+
+def updateAverageRate(request):
+    currentProductID = request.POST.get("productID", '')
+    product = Products.objects.get(productID=currentProductID)
+    print("ana f updateAverageRate ")
+    print(currentProductID)
+
+    categories = Category()
+    availableCategories = categories.getAllCategories()
+    allSubcategories = getSubcategoryForEachCategory(availableCategories)
+
+    reviews = Reviews()
+
+
+    formReview = ReviewForm(request.POST)
+    if formReview.is_valid():
+        review = formReview.save(commit=False)
+        review.productID = product
+        userid = request.session["id"]
+        user = User.objects.get(userId=userid)
+        review.userID = user
+        review.save()
+
+    pastReviews = reviews.getReviewsByProductID(currentProductID)
+
+    star = request.POST.get("starNumber")
+    if star is None: star = 0
+
+    star = int(star)
+    if star > 0:
+        avgRating = int(product.productAverageRating)
+        if avgRating == 0:
+            product.productAverageRating = int(star)
+        else:
+            avgRating += int(star)
+            avgRating /= 2
+            product.productAverageRating = avgRating
+
+        product.save()
+
+    data = {'product': product, 'formReview': formReview, 'allSubcategories': allSubcategories,
+            'pastReviews': pastReviews}
     return render(request, "products/productDetails.html", data)
 
 
 def search(request):
+    print(request.POST)
     productName = request.POST.get('product', '')
+    searchBy = request.POST.get('by', '')
     category = request.POST.get('category', '')
     min_price = request.POST.get('min_price', '')
     max_price = request.POST.get('max_price', '')
     min_rate = request.POST.get('min_rate', '')
     max_rate = request.POST.get('max_rate', '')
 
-    sub_cats = SubCategory.objects.all();
+    sub_cats = SubCategory.objects.all()
     sub_cats = tuple(sub_cats)
     sub_cats_name = []
     for sub in sub_cats:
         sub_cats_name.append(sub.subCatName)
     sub_cats_name = tuple(sub_cats_name)
     print(sub_cats_name[0])
-    print(category)
     if category not in sub_cats_name:
         category = 'All'
+    if searchBy == '':
+        searchBy = 'product'
     if min_price == '':
         min_price = '0'
     if max_price == '':
@@ -71,15 +150,14 @@ def search(request):
     if max_rate == '':
         max_rate = '5'
 
-    print(category + " " + min_price + " " + max_price + " " + min_rate + " " + max_price)
-
     search_filter = {
         'name': productName,
         'cat': category,
         'min_p': min_price,
         'max_p': max_price,
         "min_r": min_rate,
-        'max_r': max_rate
+        'max_r': max_rate,
+        'searchBy': searchBy
     }
 
     categories = Category.objects.all()
@@ -104,12 +182,27 @@ def search(request):
         #     final_cat.append(s.subCatName)
         # # print(subCat)
 
-    if category == 'All':
-        products = Products.objects.filter(Q(productName__contains=productName))
+    if searchBy == 'product':
+        if category == 'All':
+            products = Products.objects.filter(Q(productName__contains=productName))
+        else:
+            cat_id = SubCategory.objects.get(subCatName=category)
+            products = Products.objects.filter(Q(productName__contains=productName) & Q(categoryID=cat_id))
+
+    elif searchBy == 'model':
+        if category == 'All':
+            products = Products.objects.filter(Q(productModel__contains=productName))
+        else:
+            cat_id = SubCategory.objects.get(subCatName=category)
+            products = Products.objects.filter(Q(productModel__contains=productName) & Q(categoryID=cat_id))
+
     else:
-        cat_id = SubCategory.objects.get(subCatName=category)
-        # products = Products.objects.filter(Q(productName__contains=productName) and Q(category=cat_id))
-        products = Products.objects.filter(Q(productName__contains=productName) & Q(categoryID=cat_id))
+        if category == 'All':
+            products = Products.objects.all()
+        else:
+            cat_id = SubCategory.objects.get(subCatName=category)
+            # products = Products.objects.filter(Q(productName__contains=productName) and Q(category=cat_id))
+            products = Products.objects.filter(Q(categoryID=cat_id))
 
     if products:
         products = filter(lambda x: price__less_than(max_price, x), products)
@@ -120,7 +213,7 @@ def search(request):
         # products = list(products)
     else:
         print('Nothing')
-
+    print(search_filter)
     return render(request, 'products/search_result.html',
                   {'filter': search_filter, 'cats': final_cat, 'products': products})
 
