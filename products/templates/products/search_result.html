@@ -3,85 +3,100 @@
     {#<div class="search-split">#}
     <div class="row container-fluid mt-5 pt-5">
         <div class="col-md-3 p-2">
-            {#        <form method="post" action="">#}
-            {#            {% csrf_token %}#}
-            {#            <div class="input-append m-2">#}
-            {#                {% if filter.name %}#}
-            {#                    <input type="text" class="search-query col-12" value="{{ filter.name }}" name="product"#}
-            {#                           id="product">#}
-            {#                {% else %}#}
-            {#                    <input type="text" class="search-query col-12" placeholder="Search" name="product" id="product">#}
-            {##}
-            {#                {% endif %}#}
-            {#            </div>#}
+
             <form method="post" action="">
                 {% csrf_token %}
                 <div class="row bg-light col-12  align-items-center justify-content-center m-2">
-{#                    <div class="row align-items-center justify-content-center m-2">#}
-                        <div class="pt-3 row">
-                                {% if filter.name %}
-                                    <input type="text" class="form-control mr-2 search-query col-8" value="{{ filter.name }}"
-                                           name="product"
-                                           id="product">
-                                {% else %}
-                                    <input type="text" class="form-control mr-2 search-query col-8" placeholder="Search"
-                                           name="product"
-                                           id="product">
+                    <div class="pt-3 row">
+                        {% if filter.name %}
+                            <input type="text" class="form-control mr-2 ml-2 search-query col-6"
+                                   value="{{ filter.name }}" name="product" id="product1"
+                                    {% if filter.searchBy == 'cat' %}
+                                   disabled
+                                    {% endif %}>
+                        {% else %}
+                            <input type="text" class="form-control mr-2 ml-2 search-query col-6" placeholder="Search"
+                                   name="product" id="product1"
+                                    {% if filter.searchBy == 'cat' %}
+                                   disabled
+                                    {% endif %}>
 
-                                {% endif %}
+                        {% endif %}
 
-                                    <button type="submit" class="btn btn-primary btn-block col-md-3 ">Search</button>
+                        <button type="submit" class="btn btn-primary btn-block col-md-4 mr-2">Search</button>
+                    </div>
+                    <div class="w-100 pt-3">
+                        <span class="lable label-primary"> Search By :</span>
+                        <div class="custom-control custom-radio w-100">
+                            <input type="radio" id="product_radio" name="by" class="custom-control-input"
+                                   value="product"
+                                    {% if filter.searchBy == 'product' or filter.searchBy == '' %}
+                                   checked
+                                    {% endif %} >
+                            <label class="custom-control-label" for="product_radio">Product Name</label>
+                        </div>
+                        <div class="custom-control custom-radio w-100">
+                            <input type="radio" id="cat_radio" name="by" class="custom-control-input" value="cat"
+                                    {% if filter.searchBy == 'cat' %}
+                                   checked
+                                    {% endif %} >
+                            <label class="custom-control-label" for="cat_radio">Category</label>
+                        </div>
+                        <div class="custom-control custom-radio w-100">
+                            <input type="radio" id="model_radio" name="by" class="custom-control-input" value="model"
+                                    {% if filter.searchBy == 'model' %}
+                                   checked
+                                    {% endif %} >
+                            <label class="custom-control-label" for="model_radio">Model</label>
                         </div>
 
-                        <div class="select-container w-100 pt-3" align="center">
-                            <label>Category</label>
-                            <select id="category" class="custom-select mr-sm-2" name="category">
-                                {% autoescape off %}
-                                    {{ cats }}
-                                {% endautoescape %}
-                            </select>
-                        </div>
-                        <div class="w-100 pt-3" align="center">
-                            <div class="form-group">
-                                <label>Min Price : </label>
-                                <span style="font-weight:bold;color:blue" id="min_price_s"
-                                      name="min_price_s">{{ filter.min_p }}</span>
-                                <input type="range" min="0" max="100000" class="slider" step="10"
-                                       value="{{ filter.min_p }}" id="min_price" name="min_price">
-                                {#                        <input type="range" min="0" max="100000" placeholder="Min price" class="form-control" step="10"#}
-                                {#                               value="{{ filter.min_p }}" id="min_price" name="min_price"#}
-                                {#                               data-suffix="$">#}
-                            </div>
-                        </div>
-                        <div class=" pt-3 w-100" align="center">
-                            <div class="form-group">
-                                <label>Max Price : </label>
-                                <span style="font-weight:bold;color:blue" id="max_price_s"
-                                      name="max_price_s">{{ filter.max_p }}</span>
-                                <input type="range" min="0" max="100000" class="slider" step="10"
-                                       value="{{ filter.max_p }}" id="max_price" name="max_price">
-                            </div>
-                        </div>
-                        <div class=" pt-3 w-100" align="center">
-                            <div class="form-group">
-                                <label>Min Rate : </label>
-                                <span style="font-weight:bold;color:blue" id="min_rate_s"
-                                      name="max_price_s">{{ filter.min_r }}</span>
-                                <input type="range" min="1" max="5" data-decimals="1" value="{{ filter.min_r }}"
-                                       class="slider" step="0.5" id="min_rate" name="min_rate">
-                            </div>
-                        </div>
-                        <div class=" pt-3 w-100" align="center">
-                            <div class="form-group">
-                                <label>Max Rate</label>
-                                <span style="font-weight:bold;color:blue" id="max_rate_s"
-                                      name="max_price_s">{{ filter.max_r }}</span>
-                                <input type="range" min="1" max="5" data-decimals="1" value="{{ filter.max_r }}"
-                                       class="slider" step="0.5" id="max_rate" name="max_rate">
-                            </div>
+                    </div>
+                    <div class="select-container w-100 pt-3" align="center">
+                        <label>Category</label>
+                        <select id="category" class="custom-select mr-sm-2" name="category">
+                            {% autoescape off %}
+                                {{ cats }}
+                            {% endautoescape %}
+                        </select>
+                    </div>
+                    <div class="w-100 pt-3" align="center">
+                        <div class="form-group">
+                            <label>Min Price : </label>
+                            <span style="font-weight:bold;color:blue" id="min_price_s"
+                                  name="min_price_s">{{ filter.min_p }}</span>
+                            <input type="range" min="0" max="100000" class="slider" step="10"
+                                   value="{{ filter.min_p }}" id="min_price" name="min_price">
                         </div>
                     </div>
-{#                </div>#}
+                    <div class=" pt-3 w-100" align="center">
+                        <div class="form-group">
+                            <label>Max Price : </label>
+                            <span style="font-weight:bold;color:blue" id="max_price_s"
+                                  name="max_price_s">{{ filter.max_p }}</span>
+                            <input type="range" min="0" max="100000" class="slider" step="10"
+                                   value="{{ filter.max_p }}" id="max_price" name="max_price">
+                        </div>
+                    </div>
+                    <div class=" pt-3 w-100" align="center">
+                        <div class="form-group">
+                            <label>Min Rate : </label>
+                            <span style="font-weight:bold;color:blue" id="min_rate_s"
+                                  name="max_price_s">{{ filter.min_r }}</span>
+                            <input type="range" min="1" max="5" data-decimals="1" value="{{ filter.min_r }}"
+                                   class="slider" step="0.5" id="min_rate" name="min_rate">
+                        </div>
+                    </div>
+                    <div class=" pt-3 w-100" align="center">
+                        <div class="form-group">
+                            <label>Max Rate</label>
+                            <span style="font-weight:bold;color:blue" id="max_rate_s"
+                                  name="max_price_s">{{ filter.max_r }}</span>
+                            <input type="range" min="1" max="5" data-decimals="1" value="{{ filter.max_r }}"
+                                   class="slider" step="0.5" id="max_rate" name="max_rate">
+                        </div>
+                    </div>
+                </div>
+                {#                </div>#}
             </form>
         </div>
 
@@ -199,6 +214,13 @@
         var max_rate_slider = document.getElementById("max_rate");
         var max_rate_output = document.getElementById("max_rate_s");
 
+
+        var product = document.getElementById('product1');
+
+        var cat_radio = document.getElementById('cat_radio');
+        var model_radio = document.getElementById('model_radio');
+        var product_radio = document.getElementById('product_radio');
+
         max_price_output.innerHTML = max_price_slider.value; // Display the default slider value
         min_price_output.innerHTML = min_price_slider.value; // Display the default slider value
         min_rate_output.innerHTML = min_rate_slider.value; // Display the default slider value
@@ -219,6 +241,16 @@
 
         max_rate_slider.oninput = function () {
             max_rate_output.innerHTML = this.value;
+        }
+
+        product_radio.onchange = function () {
+            product.disabled = false
+        }
+        cat_radio.onchange = function () {
+            product.disabled = true
+        }
+        model_radio.onchange = function () {
+            product.disabled = false
         }
     </script>
 {% endblock %}
